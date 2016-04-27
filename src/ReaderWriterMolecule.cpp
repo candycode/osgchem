@@ -167,7 +167,7 @@ public:
 			   osgDB::equalCaseInsensitive( extension, "g03"  ) ||
 			   osgDB::equalCaseInsensitive( extension, "gam"  ) ||
 			   osgDB::equalCaseInsensitive( extension, "coor" ) ||
-			   osgDB::equalCaseInsensitive( extension, "ref"  ); 
+			   osgDB::equalCaseInsensitive( extension, "ref"  );
     }
 
     virtual ReadResult readNode(const std::string& fileName, const osgDB::ReaderWriter::Options* options) const;

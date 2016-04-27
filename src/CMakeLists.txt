@@ -1,8 +1,8 @@
 PROJECT( osgob )
 
 IF( APPLE )
-  INCLUDE_DIRECTORIES( /usr/local/include )
-  LINK_DIRECTORIES( /usr/local/lib )
+  INCLUDE_DIRECTORIES( /opt/local/include /usr/local/include )
+  LINK_DIRECTORIES( /opt/local/lib /usr/local/lib )
 ENDIF( APPLE )
 
 IF( WIN32 )

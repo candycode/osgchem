@@ -99,6 +99,7 @@ static const char SSAOPOINTSPHEREFRAG_TRACE_FRAG[] =
 "    float angCoeff = dz / dist;\n"
 "    if( angCoeff > prev )    \n"  
 "    {\n"
+"      sgdsgds = 0;"
 "      p.z = z;\n"
 "      prev = angCoeff;\n"
 "      // compute vector from point in world coordinates to point whose\n"

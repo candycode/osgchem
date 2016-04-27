@@ -81,7 +81,7 @@ osg::Geode* CreateSphereNode( double radius, int slices, int stacks,
 	if( minTheta == maxTheta )
 	{
 		minTheta = 0.0;
-		maxTheta = 2 * M_PI; 
+		maxTheta = 2 * M_PI;
 	}
 
 	// convert to radians
@@ -90,7 +90,7 @@ osg::Geode* CreateSphereNode( double radius, int slices, int stacks,
 	minPhi = M_PI * minPhi / 180.0;
 	maxPhi = M_PI * maxPhi / 180.0;
 
-	// geode 
+	// geode
 	osg::Geode* geode = new osg::Geode;
 	osg::ref_ptr< osg::Geometry > geom = new osg::Geometry;
 
@@ -101,16 +101,16 @@ osg::Geode* CreateSphereNode( double radius, int slices, int stacks,
 	osg::Vec3Array* coords = new osg::Vec3Array;
 	// normals
 	osg::Vec3Array* normals = new osg::Vec3Array;
-	
+
 	geom->setVertexArray( coords );
 	geom->setNormalArray( normals );
-	
+
 	geom->setNormalBinding( osg::Geometry::BIND_PER_VERTEX );
 
 	// indices for corrdinates and normals
 	osg::DrawElementsUInt* indices = new osg::DrawElementsUInt( primitiveMode, 0);
 	geom->addPrimitiveSet( indices );
-	
+
 	// create points
 	const int T = slices;
 	const int P = stacks;
@@ -122,7 +122,7 @@ osg::Geode* CreateSphereNode( double radius, int slices, int stacks,
 	for( int i = bottomCap ? 1 : 0; i != P; ++i )
 	{
 		const double phi = minPhi + dP * i;
-		
+
 		for( int j = 0; j != T; ++j )
 		{
 			const double theta = minTheta + dT * j;
@@ -175,7 +175,7 @@ osg::Geode* CreateSphereNode( double radius, int slices, int stacks,
 						indices->push_back( i * T + id );
 						indices->push_back( i *  T + j );
 						indices->push_back( ( i + 1 ) *  T + j );
-			
+
 						indices->push_back( ( i + 1 ) *  T + j );
 						indices->push_back( ( i + 1 ) *  T + id );
 						indices->push_back( i * T + id );
@@ -185,7 +185,7 @@ osg::Geode* CreateSphereNode( double radius, int slices, int stacks,
 						indices->push_back( i * T + id );
 						indices->push_back( i *  T + j );
 						indices->push_back( ( i + 1 ) *  T + id );
-			
+
 						indices->push_back( ( i + 1 ) *  T + j );
 						indices->push_back( ( i + 1 ) *  T + id );
 						indices->push_back( i * T + j);
@@ -198,7 +198,7 @@ osg::Geode* CreateSphereNode( double radius, int slices, int stacks,
 						indices->push_back( i * T + id );
 						indices->push_back( i *  T + j );
 						indices->push_back( ( i + 1 ) *  T + j );
-			
+
 						indices->push_back( ( i + 1 ) *  T + j );
 						indices->push_back( ( i + 1 ) *  T + id );
 						indices->push_back( i * T + id );
@@ -208,7 +208,7 @@ osg::Geode* CreateSphereNode( double radius, int slices, int stacks,
 						indices->push_back( i * T + id );
 						indices->push_back( i *  T + j );
 						indices->push_back( ( i + 1 ) *  T + id );
-			
+
 						indices->push_back( ( i + 1 ) *  T + j );
 						indices->push_back( ( i + 1 ) *  T + id );
 						indices->push_back( i * T + j);
@@ -223,12 +223,12 @@ osg::Geode* CreateSphereNode( double radius, int slices, int stacks,
 	{
 		osg::DrawElementsUInt* indicesBottom = new osg::DrawElementsUInt( osg::PrimitiveSet::TRIANGLE_FAN, 0);
 		geom->addPrimitiveSet( indicesBottom );
-		
+
 		indicesBottom->push_back( offset );
 		for( int i = 0; i != T; ++i ) indicesBottom->push_back( i );
 		if( closed ) indicesBottom->push_back( 0 );
 	}
-	
+
 	// generate indices for top cap
 	if( topCap )
 	{
@@ -239,7 +239,7 @@ osg::Geode* CreateSphereNode( double radius, int slices, int stacks,
 		for( int i = 0; i != T; ++i ) indicesTop->push_back( offset - i - ( bottomCap ? 1 : 0 ) );
 		if( closed ) indicesTop->push_back( offset - 1 );
 	}
-	
+
 	return geode;
 }
 
@@ -260,7 +260,7 @@ osg::Geometry* CreateDiscGeometry( double radius, int slices )
 	geom->setVertexArray( coords );
 	geom->setNormalArray( normals );
 
-	geom->setNormalBinding( osg::Geometry::BIND_PER_VERTEX ); 
+	geom->setNormalBinding( osg::Geometry::BIND_PER_VERTEX );
 
 	osg::DrawElementsUInt* indices = new osg::DrawElementsUInt( osg::PrimitiveSet::TRIANGLE_FAN, 0);
 	geom->addPrimitiveSet( indices );
@@ -278,7 +278,7 @@ osg::Geometry* CreateDiscGeometry( double radius, int slices )
 		osg::Vec3d p( cos( theta ), 0.0, sin( theta ) );
 		coords->push_back( p * r );
 		normals->push_back( p );
-		indices->push_back( j + 1 ); 
+		indices->push_back( j + 1 );
 	}
 	indices->push_back( 1 );
 	/////
@@ -296,7 +296,7 @@ osg::Geometry* CreateDiscGeometry( double radius, int slices )
 /// @param stacks number of stacks along the Y axis
 /// @center cylinder center; the geometry span-range along the Y axis is
 /// [center - height/2, center + height/2]
-/// @return Geode containing a cylinder aligned along the Y axis 
+/// @return Geode containing a cylinder aligned along the Y axis
 osg::Geode* CreateCylinderNode( double radius, double height, bool open, int slices, int stacks,
 				const osg::Vec3d& center = osg::Vec3d( 0, 0, 0 ) )
 {
@@ -316,11 +316,11 @@ osg::Geode* CreateCylinderNode( double radius, double height, bool open, int sli
 	geom->setVertexArray( coords );
 	geom->setNormalArray( normals );
 
-	geom->setNormalBinding( osg::Geometry::BIND_PER_VERTEX ); 
+	geom->setNormalBinding( osg::Geometry::BIND_PER_VERTEX );
 
 	osg::DrawElementsUInt* indices = new osg::DrawElementsUInt( osg::PrimitiveSet::QUADS, 0);
 	geom->addPrimitiveSet( indices );
-	
+
 
 	/////
 	const int T = slices;
@@ -334,7 +334,7 @@ osg::Geode* CreateCylinderNode( double radius, double height, bool open, int sli
 	for( int i = 0; i != P; ++i )
 	{
 		const double y = -0.5 * h + dh * i;
-		
+
 		for( int j = 0; j != T; ++j )
 		{
 			const double theta = dT * j;
@@ -345,7 +345,7 @@ osg::Geode* CreateCylinderNode( double radius, double height, bool open, int sli
 		}
 	}
 
-	
+
 	for( int i = 0; i != P - 1; ++i )
 	{
 		for( int j = 0; j != T; ++j )
@@ -354,7 +354,7 @@ osg::Geode* CreateCylinderNode( double radius, double height, bool open, int sli
 			indices->push_back( i * T + id );
 			indices->push_back( i *  T + j );
 			indices->push_back( ( i + 1 ) *  T + j );
-			indices->push_back( ( i + 1 ) *  T + id );						
+			indices->push_back( ( i + 1 ) *  T + id );
 		}
 	}
 
@@ -365,7 +365,7 @@ osg::Geode* CreateCylinderNode( double radius, double height, bool open, int sli
 
 		osg::DrawElementsUInt* indicesBottom = new osg::DrawElementsUInt( osg::PrimitiveSet::TRIANGLE_FAN, 0);
 		geom->addPrimitiveSet( indicesBottom );
-		
+
 		int offset = coords->size();
 
 		coords->push_back( osg::Vec3d( 0, -0.5 * h, 0 ) + center );
@@ -405,7 +405,7 @@ inline osg::Matrixd ComputeSTRMatrix( const osg::Vec3d& UP,
 									  osg::Matrixd& R)
 {
     const double d = ( P1 - P0 ).length();
-    assert( d > 0.0 );		
+    assert( d > 0.0 );
     osg::Matrixd S;
     S.makeScale( 1,  d, 1 );
     R.makeRotate( UP, ( P1 - P0 ) * 1.0 / d );
@@ -419,7 +419,7 @@ inline osg::Matrixd ComputeSTRMatrix( const osg::Vec3d& UP,
 //------------------------------------------------------------------------------
 osg::Geometry* CreateExtrudedSurfaceGeometry( osg::Vec3Array* section, osg::Vec3Array* path )
 {
-	
+
 	// NULL ?
 	assert( section );
 	assert( path );
@@ -432,7 +432,7 @@ osg::Geometry* CreateExtrudedSurfaceGeometry( osg::Vec3Array* section, osg::Vec3
 	tangents->push_back( t );
 	for( int i = 1; i != path->size() - 1; ++i )
 	{
-		osg::Vec3d t = ( *path )[ i + 1 ] - ( *path )[ i - 1 ]; 
+		osg::Vec3d t = ( *path )[ i + 1 ] - ( *path )[ i - 1 ];
 		t.normalize();
 		tangents->push_back( t );
 	}
@@ -457,12 +457,12 @@ osg::Geometry* CreateExtrudedSurfaceGeometry( osg::Vec3Array* section, osg::Vec3
 	normal.normalize();
 	osg::Matrixd r;
 	r.makeRotate( normal, osg::Vec3d( directions->front() ) );
-	
+
 	osg::Matrix m( r );
 	m.setTrans( path->front() );
 	osg::ref_ptr< osg::Vec3Array > rsection = new osg::Vec3Array;
 	osg::ref_ptr< osg::Vec3Array > cross = new osg::Vec3Array;
-	for( osg::Vec3Array::iterator i = section->begin(); i != section->end(); ++i ) 
+	for( osg::Vec3Array::iterator i = section->begin(); i != section->end(); ++i )
 	{
 		const osg::Vec3d t = *i * m;
 		const osg::Vec3d c = *i * r;
@@ -547,17 +547,17 @@ osg::Group* CreateBondGroup( const osg::Vec3d& P0,
     const osg::Vec3d half = ( P0 + P1   ) * 0.5;
     const osg::Vec3d c0   = ( P0 + half ) * 0.5;
     const osg::Vec3d c1   = ( half + P1 ) * 0.5;
-    
+
     static const double radius = 0.2;
     static osg::ref_ptr< osg::Geode > cylinder = CreateCylinderNode( radius, 1, true, 16, 2, osg::Vec3d( 0, 0, 0 ) );
     static osg::ref_ptr< osg::Geode > bottomSphere = CreateSphereNode( radius, 16, 16, osg::PrimitiveSet::QUADS, -180, 180, -90, 0 );
 	static osg::ref_ptr< osg::Geode > topSphere = CreateSphereNode( radius, 16, 16, osg::PrimitiveSet::QUADS, -180, 180, 0, 90 );
-    
+
     osg::ref_ptr< osg::Group > group = new osg::Group;
-    
+
 	osg::Matrixd R;
     // bond 0
-	osg::Matrixd t0 = ComputeSTRMatrix( osg::Vec3d( 0, 1, 0 ), P0, half, R ); 
+	osg::Matrixd t0 = ComputeSTRMatrix( osg::Vec3d( 0, 1, 0 ), P0, half, R );
     osg::ref_ptr< osg::Geode > b0 = new osg::Geode;
     b0->setStateSet( gAtoms[ atomicNum0 ]->getStateSet() );
     osg::Geometry* geom0 = cylinder->getDrawable( 0 )->asGeometry();
@@ -567,7 +567,7 @@ osg::Group* CreateBondGroup( const osg::Vec3d& P0,
     bt0->setMatrix( t0 );
     bt0->addChild( b0.get() );
     group->addChild( bt0 );
-    
+
     // bond 1
     osg::Matrixd t1 = ComputeSTRMatrix( osg::Vec3d( 0, 1, 0 ), half, P1, R );
     osg::ref_ptr< osg::Geode > b1 = new osg::Geode;
@@ -579,22 +579,22 @@ osg::Group* CreateBondGroup( const osg::Vec3d& P0,
     bt1->setMatrix( t1 );
     bt1->addChild( b1.get() );
     group->addChild( bt1 );
-    
+
     if( atom0 )
     {
 	    // sphere 0
 	    osg::Geode* a0 = new osg::Geode;
 		a0->setStateSet( gAtoms[ atomicNum0 ]->getStateSet() );
 	    osg::Geometry* geom0 = bottomSphere->getDrawable( 0 )->asGeometry();
-	    osg::Geometry* a0geom = new osg::Geometry; 	
+	    osg::Geometry* a0geom = new osg::Geometry;
 	    a0->addDrawable( geom0 );
 		osg::MatrixTransform* at0 = new osg::MatrixTransform;
 		osg::Matrixd AM0 = R;
 		AM0.setTrans( P0 );
-		at0->setMatrix( AM0 ); 
+		at0->setMatrix( AM0 );
 	    at0->addChild( a0 );
 	    group->addChild( at0 );
-	}   
+	}
 
 	if( atom1 )
 	{
@@ -602,18 +602,18 @@ osg::Group* CreateBondGroup( const osg::Vec3d& P0,
 	    osg::Geode* a1 = new osg::Geode;
 	    a1->setStateSet( gAtoms[ atomicNum1 ]->getStateSet() );
 		osg::Geometry* geom1 = topSphere->getDrawable( 0 )->asGeometry();
-	    osg::Geometry* a1geom = new osg::Geometry; 	
+	    osg::Geometry* a1geom = new osg::Geometry;
 	    a1->addDrawable( geom1 );
 	   	osg::MatrixTransform* at1 = new osg::MatrixTransform;
 		osg::Matrixd AM1 = R;
 		AM1.setTrans( P1 );
-		at1->setMatrix( AM1 ); 
+		at1->setMatrix( AM1 );
 	    at1->addChild( a1 );
 	    group->addChild( at1 );
-	}    
+	}
 
     return group.release();
-     
+
 }
 
 //----------------------------------------------------------------------------------
@@ -627,16 +627,16 @@ osg::Group* CreateBondGroup2( const osg::Vec3d& P0,
     const osg::Vec3d half = ( P0 + P1   ) * 0.5;
     const osg::Vec3d c0   = ( P0 + half ) * 0.5;
     const osg::Vec3d c1   = ( half + P1 ) * 0.5;
-    
+
 	osg::Matrixd R;
     // bond 0
-	osg::Matrixd t0 = ComputeSTRMatrix( osg::Vec3d( 0, 1, 0 ), P0, half, R ); 
+	osg::Matrixd t0 = ComputeSTRMatrix( osg::Vec3d( 0, 1, 0 ), P0, half, R );
 
     static const double radius = 0.2;
 	const double l = ( P1 - P0 ).length();
 	osg::ref_ptr< osg::Vec3Array > vertices  = new osg::Vec3Array;
 	osg::ref_ptr< osg::Vec2Array > texcoords = new osg::Vec2Array;
-	vertices->push_back( osg::Vec3d( -.2, -.5 * l, 0 ) * R ); 
+	vertices->push_back( osg::Vec3d( -.2, -.5 * l, 0 ) * R );
 	vertices->push_back( osg::Vec3d(  .2, -.5 * l, 0 ) * R );
 	vertices->push_back( osg::Vec3d(  .2,  .5 * l, 0 ) * R );
 	vertices->push_back( osg::Vec3d( -.2,  .5 * l, 0 ) * R );
@@ -664,7 +664,7 @@ osg::Group* CreateBondGroup2( const osg::Vec3d& P0,
 
 	osg::StateSet* set = b->getOrCreateStateSet();
 	static osg::Texture2D* tex = 0;
-	if( !tex ) 
+	if( !tex )
 	{
 		tex = new osg::Texture2D();
 		tex->setImage(osgDB::readImageFile( "./cylinder.rgb" ) );
@@ -692,7 +692,7 @@ osg::Group* CreateBondGroup2( const osg::Vec3d& P0,
 		coord->push_back( osg::Vec3d( -radius, 0, -radius ) );
 		coord->push_back( osg::Vec3d( radius, 0, -radius ) );
 		coord->push_back( osg::Vec3d( radius, 0, radius ) );
-		coord->push_back( osg::Vec3d( -radius, 0, radius ) );		
+		coord->push_back( osg::Vec3d( -radius, 0, radius ) );
 		geom->setVertexArray( coord );
 		geom->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::QUADS, 0, 4 ) );
 		osg::Vec2Array* tex = new osg::Vec2Array;
@@ -718,7 +718,7 @@ osg::Group* CreateBondGroup2( const osg::Vec3d& P0,
 		coord->push_back( osg::Vec3d( -radius, 0, -radius ) );
 		coord->push_back( osg::Vec3d( radius, 0, -radius ) );
 		coord->push_back( osg::Vec3d( radius, 0, radius ) );
-		coord->push_back( osg::Vec3d( -radius, 0, radius ) );		
+		coord->push_back( osg::Vec3d( -radius, 0, radius ) );
 		geom->setVertexArray( coord );
 		geom->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::QUADS, 0, 4 ) );
 		osg::Vec2Array* tex = new osg::Vec2Array;
@@ -730,7 +730,7 @@ osg::Group* CreateBondGroup2( const osg::Vec3d& P0,
 		group->addChild( a1 );
 	}
 
-	return group.release();	
+	return group.release();
 }
 //----------------------------------------------------------------------------------
 
@@ -744,16 +744,16 @@ osg::Group* CreateBondGroup3( const osg::Vec3d& P0,
     const osg::Vec3d half = ( P0 + P1   ) * 0.5;
     const osg::Vec3d c0   = ( P0 + half ) * 0.5;
     const osg::Vec3d c1   = ( half + P1 ) * 0.5;
-    
+
 	osg::Matrixd R;
     // bond 0
-	osg::Matrixd t0 = ComputeSTRMatrix( osg::Vec3d( 0, 1, 0 ), P0, half, R ); 
+	osg::Matrixd t0 = ComputeSTRMatrix( osg::Vec3d( 0, 1, 0 ), P0, half, R );
 
     static const double radius = 0.2;
 	const double l = ( P1 - P0 ).length();
 	osg::ref_ptr< osg::Vec3Array > vertices  = new osg::Vec3Array;
 	osg::ref_ptr< osg::Vec2Array > texcoords = new osg::Vec2Array;
-	vertices->push_back( osg::Vec3d( -radius, -.5 * l, 0 ) * R ); 
+	vertices->push_back( osg::Vec3d( -radius, -.5 * l, 0 ) * R );
 	vertices->push_back( osg::Vec3d(  radius, -.5 * l, 0 ) * R );
 	vertices->push_back( osg::Vec3d(  radius,  .5 * l, 0 ) * R );
 	vertices->push_back( osg::Vec3d( -radius,  .5 * l, 0 ) * R );
@@ -789,7 +789,7 @@ osg::Group* CreateBondGroup3( const osg::Vec3d& P0,
 	set->addUniform( new osg::Uniform( "length", float( l ) ) );
 	set->addUniform( new osg::Uniform( "invObjectMatrix", osg::Matrixd::inverse( R ) ) );
 	set->addUniform( new osg::Uniform( "objectMatrix", R ) );
-	
+
 	//osg::Texture2D *tex = new osg::Texture2D();
  //   tex->setImage(osgDB::readImageFile( "./atom.png" ) );
  //   set->setTextureAttributeAndModes( 0, tex, osg::StateAttribute::ON );
@@ -799,7 +799,7 @@ osg::Group* CreateBondGroup3( const osg::Vec3d& P0,
 	set->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
 
 	group->addChild( b.get() );
-	return group.release();	
+	return group.release();
 }
 
 
@@ -814,27 +814,27 @@ osg::Group* CreateBondGroup4( const osg::Vec3d& P0,
     const osg::Vec3d half = ( P0 + P1   ) * 0.5;
     const osg::Vec3d c0   = ( P0 + half ) * 0.5;
     const osg::Vec3d c1   = ( half + P1 ) * 0.5;
-    
+
 	osg::Matrixd R;
     // bond 0
-	osg::Matrixd t0 = ComputeSTRMatrix( osg::Vec3d( 0, 1, 0 ), P0, half, R ); 
+	osg::Matrixd t0 = ComputeSTRMatrix( osg::Vec3d( 0, 1, 0 ), P0, half, R );
 
     static const double radius = 0.2;
 	const double l = ( P1 - P0 ).length();
-	
+
 	// compute billboard
 	const double r = radius;
 	osg::BoundingBox aabox;
-	aabox.expandBy( osg::Vec3d( -r, -.5 * l, -r ) * R ); 
+	aabox.expandBy( osg::Vec3d( -r, -.5 * l, -r ) * R );
 	aabox.expandBy( osg::Vec3d(  r, -.5 * l, -r ) * R );
 	aabox.expandBy( osg::Vec3d(  r,  .5 * l, -r ) * R );
 	aabox.expandBy( osg::Vec3d( -r,  .5 * l, -r ) * R );
-	aabox.expandBy( osg::Vec3d( -r, -.5 * l,  r ) * R ); 
+	aabox.expandBy( osg::Vec3d( -r, -.5 * l,  r ) * R );
 	aabox.expandBy( osg::Vec3d(  r, -.5 * l,  r ) * R );
 	aabox.expandBy( osg::Vec3d(  r,  .5 * l,  r ) * R );
 	aabox.expandBy( osg::Vec3d( -r,  .5 * l,  r ) * R );
 	const double hex = .5 *( aabox.xMax() - aabox.xMin() );
-	const double hey = .5 *( aabox.yMax() - aabox.yMin() ); 	
+	const double hey = .5 *( aabox.yMax() - aabox.yMin() );
 	const double h = std::max( hex, hey );
 
 	osg::ref_ptr< osg::Vec3Array > vertices = new osg::Vec3Array;
@@ -842,7 +842,7 @@ osg::Group* CreateBondGroup4( const osg::Vec3d& P0,
 	vertices->push_back( osg::Vec3d(  h, 0, -h ) );
 	vertices->push_back( osg::Vec3d(  h, 0,  h ) );
 	vertices->push_back( osg::Vec3d( -h, 0,  h ) );
-	
+
 	osg::ref_ptr< osg::Vec2Array > texcoords = new osg::Vec2Array;
 	texcoords->push_back( osg::Vec2d( 0, 0 ) );
 	texcoords->push_back( osg::Vec2d( 1, 0 ) );
@@ -867,10 +867,10 @@ osg::Group* CreateBondGroup4( const osg::Vec3d& P0,
 	colors->push_back( osg::Vec4d( 1, 1, 1, 1 ) );
 	geom->setColorArray( colors.get() );
 	geom->setColorBinding( osg::Geometry::BIND_OVERALL );
-	
+
 	osg::ref_ptr< osg::Group > group = new osg::Group;
 	group->addChild( b.get() );
-	
+
 	// shaders
 	osg::ref_ptr< osg::Program > program = new osg::Program;
     program->setName( "cylinder" );
@@ -882,10 +882,10 @@ osg::Group* CreateBondGroup4( const osg::Vec3d& P0,
 	set->addUniform( new osg::Uniform( "objectMatrix", /*osg::Matrixd::inverse*/( R ) ) );
 	set->addUniform( new osg::Uniform( "invObjectMatrix", osg::Matrixd::inverse( R ) ) );
 	set->addUniform( new osg::Uniform( "center", half ) );
-		
-	return group.release();	
 
-	
+	return group.release();
+
+
 
 	if( atom0 )
 	{
@@ -901,7 +901,7 @@ osg::Group* CreateBondGroup4( const osg::Vec3d& P0,
 		coord->push_back( osg::Vec3d( -radius, 0, -radius ) );
 		coord->push_back( osg::Vec3d( radius, 0, -radius ) );
 		coord->push_back( osg::Vec3d( radius, 0, radius ) );
-		coord->push_back( osg::Vec3d( -radius, 0, radius ) );		
+		coord->push_back( osg::Vec3d( -radius, 0, radius ) );
 		geom->setVertexArray( coord );
 		geom->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::QUADS, 0, 4 ) );
 		osg::Vec2Array* tex = new osg::Vec2Array;
@@ -927,7 +927,7 @@ osg::Group* CreateBondGroup4( const osg::Vec3d& P0,
 		coord->push_back( osg::Vec3d( -radius, 0, -radius ) );
 		coord->push_back( osg::Vec3d( radius, 0, -radius ) );
 		coord->push_back( osg::Vec3d( radius, 0, radius ) );
-		coord->push_back( osg::Vec3d( -radius, 0, radius ) );		
+		coord->push_back( osg::Vec3d( -radius, 0, radius ) );
 		geom->setVertexArray( coord );
 		geom->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::QUADS, 0, 4 ) );
 		osg::Vec2Array* tex = new osg::Vec2Array;
@@ -939,7 +939,7 @@ osg::Group* CreateBondGroup4( const osg::Vec3d& P0,
 		group->addChild( a1 );
 	}
 
-	return group.release();	
+	return group.release();
 }
 
 //----------------------------------------------------------------------------------
@@ -953,28 +953,28 @@ osg::Group* CreateBondGroup5( const osg::Vec3d& P0,
     const osg::Vec3d half = ( P0 + P1   ) * 0.5;
     const osg::Vec3d c0   = ( P0 + half ) * 0.5;
     const osg::Vec3d c1   = ( half + P1 ) * 0.5;
-    
+
 	osg::Matrixd R;
     // bond 0
-	osg::Matrixd t0 = ComputeSTRMatrix( osg::Vec3d( 0, 1, 0 ), P0, half, R ); 
+	osg::Matrixd t0 = ComputeSTRMatrix( osg::Vec3d( 0, 1, 0 ), P0, half, R );
 
     static const double radius = 0.2;
 	const double l = ( P1 - P0 ).length();
-	
+
 	// compute billboard
 	const double r = radius;
 	osg::BoundingBox aabox;
-	aabox.expandBy( osg::Vec3d( -r, -.5 * l, -r ) * R ); 
+	aabox.expandBy( osg::Vec3d( -r, -.5 * l, -r ) * R );
 	aabox.expandBy( osg::Vec3d(  r, -.5 * l, -r ) * R );
 	aabox.expandBy( osg::Vec3d(  r,  .5 * l, -r ) * R );
 	aabox.expandBy( osg::Vec3d( -r,  .5 * l, -r ) * R );
-	aabox.expandBy( osg::Vec3d( -r, -.5 * l,  r ) * R ); 
+	aabox.expandBy( osg::Vec3d( -r, -.5 * l,  r ) * R );
 	aabox.expandBy( osg::Vec3d(  r, -.5 * l,  r ) * R );
 	aabox.expandBy( osg::Vec3d(  r,  .5 * l,  r ) * R );
 	aabox.expandBy( osg::Vec3d( -r,  .5 * l,  r ) * R );
 	const double hex = .5 *( aabox.xMax() - aabox.xMin() );
 	const double hey = .5 *( aabox.yMax() - aabox.yMin() );
-	const double hez = .5 *( aabox.zMax() - aabox.zMin() ); 	
+	const double hez = .5 *( aabox.zMax() - aabox.zMin() );
 	const double h = std::max( hex, std::max( hey, hez ) );
 
 	osg::ref_ptr< osg::Vec3Array > vertices = new osg::Vec3Array;
@@ -982,7 +982,7 @@ osg::Group* CreateBondGroup5( const osg::Vec3d& P0,
 	vertices->push_back( osg::Vec3d(  h, 0, -h ) );
 	vertices->push_back( osg::Vec3d(  h, 0,  h ) );
 	vertices->push_back( osg::Vec3d( -h, 0,  h ) );
-	
+
 	osg::ref_ptr< osg::Vec2Array > texcoords = new osg::Vec2Array;
 	texcoords->push_back( osg::Vec2d( 0, 0 ) );
 	texcoords->push_back( osg::Vec2d( 1, 0 ) );
@@ -1007,10 +1007,10 @@ osg::Group* CreateBondGroup5( const osg::Vec3d& P0,
 	colors->push_back( osg::Vec4d( 1, 1, 1, 1 ) );
 	geom->setColorArray( colors.get() );
 	geom->setColorBinding( osg::Geometry::BIND_OVERALL );
-	
+
 	osg::ref_ptr< osg::Group > group = new osg::Group;
 	group->addChild( b.get() );
-	
+
 	// shaders
 	osg::ref_ptr< osg::Program > program = new osg::Program;
     program->setName( "cylinder" );
@@ -1022,10 +1022,10 @@ osg::Group* CreateBondGroup5( const osg::Vec3d& P0,
 	set->addUniform( new osg::Uniform( "objectMatrix", /*osg::Matrixd::inverse*/( R ) ) );
 	set->addUniform( new osg::Uniform( "invObjectMatrix", osg::Matrixd::inverse( R ) ) );
 	set->addUniform( new osg::Uniform( "center", half ) );
-		
-	return group.release();	
 
-	
+	return group.release();
+
+
 
 	if( atom0 )
 	{
@@ -1041,7 +1041,7 @@ osg::Group* CreateBondGroup5( const osg::Vec3d& P0,
 		coord->push_back( osg::Vec3d( -radius, 0, -radius ) );
 		coord->push_back( osg::Vec3d( radius, 0, -radius ) );
 		coord->push_back( osg::Vec3d( radius, 0, radius ) );
-		coord->push_back( osg::Vec3d( -radius, 0, radius ) );		
+		coord->push_back( osg::Vec3d( -radius, 0, radius ) );
 		geom->setVertexArray( coord );
 		geom->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::QUADS, 0, 4 ) );
 		osg::Vec2Array* tex = new osg::Vec2Array;
@@ -1067,7 +1067,7 @@ osg::Group* CreateBondGroup5( const osg::Vec3d& P0,
 		coord->push_back( osg::Vec3d( -radius, 0, -radius ) );
 		coord->push_back( osg::Vec3d( radius, 0, -radius ) );
 		coord->push_back( osg::Vec3d( radius, 0, radius ) );
-		coord->push_back( osg::Vec3d( -radius, 0, radius ) );		
+		coord->push_back( osg::Vec3d( -radius, 0, radius ) );
 		geom->setVertexArray( coord );
 		geom->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::QUADS, 0, 4 ) );
 		osg::Vec2Array* tex = new osg::Vec2Array;
@@ -1079,14 +1079,14 @@ osg::Group* CreateBondGroup5( const osg::Vec3d& P0,
 		group->addChild( a1 );
 	}
 
-	return group.release();	
+	return group.release();
 }
 
 //----------------------------------------------------------------------------------
 #include "cylinder3.vert.h"
 #include "cylinder3.frag.h"
 #include "sphere3.frag.h"
-#include "sphere3.vert.h"   
+#include "sphere3.vert.h"
 // Add quads used as ray targets. Best results are obtained with two quads per primitive
 // faster results with one quad put in front of the primitive.
 osg::Group* CreateBondGroup6( const osg::Vec3d& P0,
@@ -1099,14 +1099,14 @@ osg::Group* CreateBondGroup6( const osg::Vec3d& P0,
     const osg::Vec3d half = ( P0 + P1   ) * 0.5;
     const osg::Vec3d c0   = ( P0 + half ) * 0.5;
     const osg::Vec3d c1   = ( half + P1 ) * 0.5;
-    
+
 	osg::Matrixd R;
     // bond 0
-	osg::Matrixd t0 = ComputeSTRMatrix( osg::Vec3d( 0, 1, 0 ), P0, half, R ); 
+	osg::Matrixd t0 = ComputeSTRMatrix( osg::Vec3d( 0, 1, 0 ), P0, half, R );
 
     static const double radius = 0.2;
 	const double l = ( P1 - P0 ).length();
-	
+
 	osg::Vec3d axis = osg::Vec3d( 0, 1, 0 ) * R;
 	axis.normalize();
 	osg::Matrixd Q;
@@ -1124,27 +1124,27 @@ osg::Group* CreateBondGroup6( const osg::Vec3d& P0,
     Q( 3, 1 ) = Q( 1, 3 );
 	Q( 3, 3 ) = 0;*/
 
-	osg::Matrixd QT = osg::Matrixd::inverse( R ) * Q * R ; 
+	osg::Matrixd QT = osg::Matrixd::inverse( R ) * Q * R ;
 
 	// compute billboard
 	const double r = radius;
 	osg::BoundingBox aabox;
-	aabox.expandBy( osg::Vec3d( -r, -.5 * l, -r ) * R ); 
+	aabox.expandBy( osg::Vec3d( -r, -.5 * l, -r ) * R );
 	aabox.expandBy( osg::Vec3d(  r, -.5 * l, -r ) * R );
 	aabox.expandBy( osg::Vec3d(  r,  .5 * l, -r ) * R );
 	aabox.expandBy( osg::Vec3d( -r,  .5 * l, -r ) * R );
-	aabox.expandBy( osg::Vec3d( -r, -.5 * l,  r ) * R ); 
+	aabox.expandBy( osg::Vec3d( -r, -.5 * l,  r ) * R );
 	aabox.expandBy( osg::Vec3d(  r, -.5 * l,  r ) * R );
 	aabox.expandBy( osg::Vec3d(  r,  .5 * l,  r ) * R );
 	aabox.expandBy( osg::Vec3d( -r,  .5 * l,  r ) * R );
 	const double hex = .5 *( aabox.xMax() - aabox.xMin() );
 	const double hey = .5 *( aabox.yMax() - aabox.yMin() );
-	const double hez = .5 *( aabox.zMax() - aabox.zMin() ); 	
+	const double hez = .5 *( aabox.zMax() - aabox.zMin() );
 	const double h = std::max( hex, std::max( hey, hez ) );
 	//const double h = aabox.radius();
-    
+
 	osg::ref_ptr< osg::Vec3Array > vertices = new osg::Vec3Array;
-	
+
 	// option 1 two back/front slabs
 	// best accuracy
 	//vertices->push_back( osg::Vec3d( -h, -h, -h ) );
@@ -1155,7 +1155,7 @@ osg::Group* CreateBondGroup6( const osg::Vec3d& P0,
 	//vertices->push_back( osg::Vec3d(  h, h, -h ) );
 	//vertices->push_back( osg::Vec3d(  h, h,  h ) );
 	//vertices->push_back( osg::Vec3d( -h, h,  h ) );
-	
+
 
     // option 2 one quad
 	// faster
@@ -1194,10 +1194,10 @@ osg::Group* CreateBondGroup6( const osg::Vec3d& P0,
 	colors->push_back( osg::Vec4d( 1, 1, 1, 1 ) );
 	geom->setColorArray( colors.get() );
 	geom->setColorBinding( osg::Geometry::BIND_OVERALL );
-	
+
 	osg::ref_ptr< osg::Group > group = new osg::Group;
 	group->addChild( b.get() );
-	
+
 	// shaders
 	static osg::ref_ptr< osg::Program > program;
 	if( program == 0 )
@@ -1211,11 +1211,11 @@ osg::Group* CreateBondGroup6( const osg::Vec3d& P0,
 	}
 	set->setAttributeAndModes( program.get(), osg::StateAttribute::ON );
 	set->addUniform( new osg::Uniform( "hlength", float( 0.5 * l ) ) );
-	set->addUniform( new osg::Uniform( "Q", QT ) );	
+	set->addUniform( new osg::Uniform( "Q", QT ) );
 	set->addUniform( new osg::Uniform( "axis", axis ) );
 	set->addUniform( new osg::Uniform( "bcolor", gAtomColors[ atomicNum0 ] ) );
 	set->addUniform( new osg::Uniform( "tcolor", gAtomColors[ atomicNum1 ] ) );
-	//return group.release();	
+	//return group.release();
 
 
 	static osg::ref_ptr< osg::Program > aprogram;
@@ -1234,21 +1234,21 @@ osg::Group* CreateBondGroup6( const osg::Vec3d& P0,
 		set->setAttributeAndModes( aprogram.get(), osg::StateAttribute::ON );
 	    set->addUniform( new osg::Uniform( "radius", float( radius ) ) );
 		set->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
-		
+
 		a1->setMode( osg::Billboard::POINT_ROT_EYE );
 		osg::Geometry* geom = new osg::Geometry;
 		a1->addDrawable( geom, P0 );
-		
+
 		osg::Geometry* g = gAtoms[ atomicNum0 ]->getDrawable( 0 )->asGeometry();
 		geom->setColorArray( g->getColorArray() );
 		geom->setColorBinding( osg::Geometry::BIND_OVERALL );
 		osg::Vec3Array* coord = new osg::Vec3Array;
 		// put quad in front: billboards are automatically rotated such that -y is parallel to z in eye
 		// coordinates
-		coord->push_back( osg::Vec3d( -radius, -radius, -radius ) ); 
+		coord->push_back( osg::Vec3d( -radius, -radius, -radius ) );
 		coord->push_back( osg::Vec3d( radius, -radius, -radius ) );
 		coord->push_back( osg::Vec3d( radius, -radius, radius ) );
-		coord->push_back( osg::Vec3d( -radius, -radius, radius ) );		
+		coord->push_back( osg::Vec3d( -radius, -radius, radius ) );
 		geom->setVertexArray( coord );
 		geom->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::QUADS, 0, 4 ) );
 		//osg::Vec2Array* tex = new osg::Vec2Array;
@@ -1262,7 +1262,7 @@ osg::Group* CreateBondGroup6( const osg::Vec3d& P0,
 
 	if( atom1 )
 	{
-				
+
 		osg::Billboard* a1 = new osg::Billboard;
 		osg::StateSet* set = a1->getOrCreateStateSet();
 		set->setAttributeAndModes( aprogram.get(), osg::StateAttribute::ON );
@@ -1272,7 +1272,7 @@ osg::Group* CreateBondGroup6( const osg::Vec3d& P0,
 		a1->setMode( osg::Billboard::POINT_ROT_EYE );
 		osg::Geometry* geom = new osg::Geometry;
 		a1->addDrawable( geom, P1 );
-		
+
 		osg::Geometry* g = gAtoms[ atomicNum1 ]->getDrawable( 0 )->asGeometry();
 		geom->setColorArray( g->getColorArray() );
 		geom->setColorBinding( osg::Geometry::BIND_OVERALL );
@@ -1282,7 +1282,7 @@ osg::Group* CreateBondGroup6( const osg::Vec3d& P0,
 		coord->push_back( osg::Vec3d( -radius, -radius, -radius ) );
 		coord->push_back( osg::Vec3d(  radius, -radius, -radius ) );
 		coord->push_back( osg::Vec3d(  radius, -radius,  radius ) );
-		coord->push_back( osg::Vec3d( -radius, -radius,  radius ) );		
+		coord->push_back( osg::Vec3d( -radius, -radius,  radius ) );
 		geom->setVertexArray( coord );
 		geom->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::QUADS, 0, 4 ) );
 		//osg::Vec2Array* tex = new osg::Vec2Array;
@@ -1294,7 +1294,7 @@ osg::Group* CreateBondGroup6( const osg::Vec3d& P0,
 		group->addChild( a1 );
 	}
 
-	return group.release();	
+	return group.release();
 }
 
 
@@ -1311,14 +1311,14 @@ osg::Group* CreateBondGroup7( const osg::Vec3d& P0,
 							  bool atom1 )
 {
     const osg::Vec3d half = ( P0 + P1   ) * 0.5;
-     
+
 	osg::Matrixd R;
     // bond 0
-	osg::Matrixd t0 = ComputeSTRMatrix( osg::Vec3d( 0, 1, 0 ), P0, half, R ); 
+	osg::Matrixd t0 = ComputeSTRMatrix( osg::Vec3d( 0, 1, 0 ), P0, half, R );
     static const double radius = 0.2;
 	const double r = radius;
 	const double l = ( P1 - P0 ).length();
-	
+
 	osg::Vec3d axis = osg::Vec3d( 0, 1, 0 ) * R;
 	axis.normalize();
 	osg::Matrixd Q;
@@ -1329,9 +1329,9 @@ osg::Group* CreateBondGroup7( const osg::Vec3d& P0,
 	// | g h i j |
 	Q( 1, 1 ) = 0;
 	Q( 3, 3 ) = -radius * radius;
-	osg::Matrixd QT = osg::Matrixd::inverse( R ) * Q * R ; 
+	osg::Matrixd QT = osg::Matrixd::inverse( R ) * Q * R ;
 
-	osg::ref_ptr< osg::Group > group = new osg::Group;	
+	osg::ref_ptr< osg::Group > group = new osg::Group;
 	// OPTION 1 oriented box: pass center to shader
 	//osg::Vec3 c0( -r, -.5*l, -r ), c1( r, -.5*l, -r ), c2( r, .5*l, -r ), c3( -r, .5*l, -r );
 	//osg::Vec3 c4( -r, -.5*l, r ), c5( r, -.5*l, r ), c6( r, .5*l, r ), c7( -r, .5*l, r );
@@ -1341,7 +1341,7 @@ osg::Group* CreateBondGroup7( const osg::Vec3d& P0,
 	//coord->push_back( c0 * R + half ); coord->push_back( c3 * R + half ); coord->push_back( c2 * R + half ); coord->push_back( c1 * R + half );
 	////left
 	//coord->push_back( c0 * R + half ); coord->push_back( c4 * R + half ); coord->push_back( c7 * R + half ); coord->push_back( c3 * R + half );
-	////right 
+	////right
 	//coord->push_back( c5 * R + half ); coord->push_back( c1 * R + half ); coord->push_back( c2 * R + half ); coord->push_back( c6 * R + half );
 	//// front
 	//coord->push_back( c4 * R + half ); coord->push_back( c5 * R + half ); coord->push_back( c6 * R + half ); coord->push_back( c7 * R + half );
@@ -1363,11 +1363,11 @@ osg::Group* CreateBondGroup7( const osg::Vec3d& P0,
     osg::ref_ptr< osg::Geode > b = new osg::Geode;
 	b->addDrawable( new osg::ShapeDrawable( box.get() ) );
 	group->addChild( b.get() );
-	
+
 	osg::StateSet* set = b->getOrCreateStateSet();
 	set->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
 	set->setAttributeAndModes( new osg::CullFace );
-	
+
 	// shaders
 	static osg::ref_ptr< osg::Program > program;
 	if( program == 0 )
@@ -1379,15 +1379,15 @@ osg::Group* CreateBondGroup7( const osg::Vec3d& P0,
 	}
 	set->setAttributeAndModes( program.get(), osg::StateAttribute::ON );
 	set->addUniform( new osg::Uniform( "hlength", float( 0.5 * l ) ) );
-	set->addUniform( new osg::Uniform( "Q", QT ) );	
+	set->addUniform( new osg::Uniform( "Q", QT ) );
 	set->addUniform( new osg::Uniform( "axis", axis ) );
-	
+
 	//set->addUniform( new osg::Uniform( "center", half ) );
-	
+
 	set->addUniform( new osg::Uniform( "bcolor", gAtomColors[ atomicNum0 ] ) );
 	set->addUniform( new osg::Uniform( "tcolor", gAtomColors[ atomicNum1 ] ) );
 
-	return group.release();	
+	return group.release();
 }
 
 
@@ -1395,7 +1395,7 @@ osg::Group* CreateBondGroup7( const osg::Vec3d& P0,
 #include "pointcylinder.vert.h"
 #include "pointcylinder.frag.h"
 #include "pointsphere.frag.h"
-#include "pointsphere.vert.h"   
+#include "pointsphere.vert.h"
 // Add quads used as ray targets. Best results are obtained with two quads per primitive
 // faster results with one quad put in front of the primitive.
 osg::Group* CreateBondGroup8( const osg::Vec3d& P0,
@@ -1410,11 +1410,11 @@ osg::Group* CreateBondGroup8( const osg::Vec3d& P0,
 	const osg::Vec3d bhalf = ( P0 + half ) * 0.5;
 	osg::Matrixd R;
     // bond 0
-	osg::Matrixd t0 = ComputeSTRMatrix( osg::Vec3d( 0, 1, 0 ), P0, half, R ); 
+	osg::Matrixd t0 = ComputeSTRMatrix( osg::Vec3d( 0, 1, 0 ), P0, half, R );
 
     static const double radius = 0.2;
 	const double l = ( P1 - P0 ).length();
-	
+
 	osg::Vec3d axis = osg::Vec3d( 0, 1, 0 ) * R;
 	axis.normalize();
 	osg::Matrixd Q;
@@ -1427,9 +1427,9 @@ osg::Group* CreateBondGroup8( const osg::Vec3d& P0,
 	Q( 1, 1 ) = 0;
 	Q( 3, 3 ) = -radius * radius;
 	osg::Matrixd QT = osg::Matrixd::inverse( R ) * Q * R ; // v * T^-1 * Q * T * vt where: T, Q are 4x4 matrices and v is a ROW vector.
-	
-   
-    //PROBLEM: need to split the bond into two cylinders and render 
+
+
+    //PROBLEM: need to split the bond into two cylinders and render
 	// the two cylinders with two separate points if not the point doesn't get
 	// rendered.
 
@@ -1466,9 +1466,9 @@ osg::Group* CreateBondGroup8( const osg::Vec3d& P0,
 	}
 	set->setAttributeAndModes( program.get(), osg::StateAttribute::ON );
 	set->addUniform( new osg::Uniform( "hlength", float( 0.25 * l ) ) );
-	set->addUniform( new osg::Uniform( "Q", QT ) );	
+	set->addUniform( new osg::Uniform( "Q", QT ) );
 	set->addUniform( new osg::Uniform( "axis", axis ) );
-	
+
 
 	static osg::ref_ptr< osg::Program > aprogram;
 	if( aprogram == 0 )
@@ -1525,7 +1525,7 @@ osg::Group* CreateBondGroup8( const osg::Vec3d& P0,
 		group->addChild( geode.get() );
 	}*/
 
-	return group.release();	
+	return group.release();
 }
 
 
@@ -1541,14 +1541,14 @@ osg::Group* CreateBondGroupLOD( const osg::Vec3d& P0,
 							  bool atom1 )
 {
     const osg::Vec3d half = ( P0 + P1   ) * 0.5;
-     
+
 	osg::Matrixd R;
     // bond 0
-	osg::Matrixd t0 = ComputeSTRMatrix( osg::Vec3d( 0, 1, 0 ), P0, half, R ); 
+	osg::Matrixd t0 = ComputeSTRMatrix( osg::Vec3d( 0, 1, 0 ), P0, half, R );
     static const double radius = 0.2;
 	const double r = radius;
 	const double l = ( P1 - P0 ).length();
-	
+
 	osg::Vec3d axis = osg::Vec3d( 0, 1, 0 ) * R;
 	axis.normalize();
 	osg::Matrixd Q;
@@ -1559,9 +1559,9 @@ osg::Group* CreateBondGroupLOD( const osg::Vec3d& P0,
 	// | g h i j |
 	Q( 1, 1 ) = 0;
 	Q( 3, 3 ) = -radius * radius;
-	osg::Matrixd QT = osg::Matrixd::inverse( R ) * Q * R ; 
+	osg::Matrixd QT = osg::Matrixd::inverse( R ) * Q * R ;
 
-	osg::ref_ptr< osg::Group > group = new osg::Group;	
+	osg::ref_ptr< osg::Group > group = new osg::Group;
 	// OPTION 1 oriented box: pass center to shader
 	//osg::Vec3 c0( -r, -.5*l, -r ), c1( r, -.5*l, -r ), c2( r, .5*l, -r ), c3( -r, .5*l, -r );
 	//osg::Vec3 c4( -r, -.5*l, r ), c5( r, -.5*l, r ), c6( r, .5*l, r ), c7( -r, .5*l, r );
@@ -1571,7 +1571,7 @@ osg::Group* CreateBondGroupLOD( const osg::Vec3d& P0,
 	//coord->push_back( c0 * R + half ); coord->push_back( c3 * R + half ); coord->push_back( c2 * R + half ); coord->push_back( c1 * R + half );
 	////left
 	//coord->push_back( c0 * R + half ); coord->push_back( c4 * R + half ); coord->push_back( c7 * R + half ); coord->push_back( c3 * R + half );
-	////right 
+	////right
 	//coord->push_back( c5 * R + half ); coord->push_back( c1 * R + half ); coord->push_back( c2 * R + half ); coord->push_back( c6 * R + half );
 	//// front
 	//coord->push_back( c4 * R + half ); coord->push_back( c5 * R + half ); coord->push_back( c6 * R + half ); coord->push_back( c7 * R + half );
@@ -1593,11 +1593,11 @@ osg::Group* CreateBondGroupLOD( const osg::Vec3d& P0,
     osg::ref_ptr< osg::Geode > b = new osg::Geode;
 	b->addDrawable( new osg::ShapeDrawable( box.get() ) );
 	group->addChild( b.get() );
-	
+
 	osg::StateSet* set = b->getOrCreateStateSet();
 	set->setMode( GL_LIGHTING, osg::StateAttribute::OFF );
 	set->setAttributeAndModes( new osg::CullFace );
-	
+
 	// shaders
 	static osg::ref_ptr< osg::Program > program;
 	if( program == 0 )
@@ -1609,11 +1609,11 @@ osg::Group* CreateBondGroupLOD( const osg::Vec3d& P0,
 	}
 	set->setAttributeAndModes( program.get(), osg::StateAttribute::ON );
 	set->addUniform( new osg::Uniform( "hlength", float( 0.5 * l ) ) );
-	set->addUniform( new osg::Uniform( "Q", QT ) );	
+	set->addUniform( new osg::Uniform( "Q", QT ) );
 	set->addUniform( new osg::Uniform( "axis", axis ) );
-	
+
 	//set->addUniform( new osg::Uniform( "center", half ) );
-	
+
 	set->addUniform( new osg::Uniform( "bcolor", gAtomColors[ atomicNum0 ] ) );
 	set->addUniform( new osg::Uniform( "tcolor", gAtomColors[ atomicNum1 ] ) );
 
@@ -1627,19 +1627,19 @@ osg::Group* CreateBondGroupLOD( const osg::Vec3d& P0,
 	osg::ref_ptr< osg::Vec4Array > colors = new osg::Vec4Array;
 	colors->push_back( gAtomColors[ atomicNum0 ] ); colors->push_back( gAtomColors[ atomicNum1 ] );
 	geom->setColorArray( colors.get() );
-	geom->setColorBinding( osg::Geometry::BIND_PER_PRIMITIVE );
+	//geom->setColorBinding( osg::Geometry::BIND_PER_PRIMITIVE );
 	osg::ref_ptr< osg::Geode > geode = new osg::Geode;
 	geode->addDrawable( geom.get() );
 	group->addChild( geode.get() );
 	osg::StateSet* ss = geode->getOrCreateStateSet();
 	ss->setMode( GL_LIGHTING, osg::StateAttribute::OFF );
 	//ss->setAttributeAndModes( new osg::LineWidth( 4 ) );
-	
+
 	//group->setCenter( half );
 	//group->setRadius( 0.5 * l );
 	//group->setRange( 0, 0.0f, 12.0f * l );
 	//group->setRange( 1, 12.0f * l, 1e7f );
-	return group.release();	
+	return group.release();
 }
 //------------------------------------------------------------------------------
 void InitAtomColors( const char* fname )
@@ -1654,7 +1654,7 @@ void InitAtomColors( const char* fname )
 		for( ; b < e; b += 3 )
 		{
 			gAtomColors.push_back( osg::Vec4d( b[ 0 ], b[ 1 ], b[ 2 ], 2.0 ) * 0.5 +
-				                   osg::Vec4d( .5, .5, .5, 0. ) ); 
+				                   osg::Vec4d( .5, .5, .5, 0. ) );
 		}
 		return;
 	}
@@ -1665,7 +1665,7 @@ void InitAtomColors( const char* fname )
         double r, g, b;
 		std::istringstream in( lineBuffer );
         in >> r >> g >> b;
-		gAtomColors.push_back( osg::Vec4d( r, g, b, 1.0 ) ); 
+		gAtomColors.push_back( osg::Vec4d( r, g, b, 1.0 ) );
         lineBuffer = "";
     }
 }
@@ -1731,7 +1731,7 @@ void InitAtomTextureGeometries()
 	texture->setWrap( osg::Texture::WRAP_S, osg::Texture::CLAMP );
 	texture->setWrap( osg::Texture::WRAP_T, osg::Texture::CLAMP );*/
 	//texture->setUseHardwareMipMapGeneration( true );
-		
+
 	//texture->setDataVariance( osg::Object::DYNAMIC );
 	gAtoms.clear();
 	const int sz = GetElementTableSize();
@@ -1746,31 +1746,31 @@ void InitAtomTextureGeometries()
 		coord->push_back( osg::Vec3d( -r, 0, -r ) );
 		coord->push_back( osg::Vec3d( r, 0, -r ) );
 		coord->push_back( osg::Vec3d( r, 0, r ) );
-		coord->push_back( osg::Vec3d( -r, 0, r ) );		
+		coord->push_back( osg::Vec3d( -r, 0, r ) );
 		geom->setVertexArray( coord );
 		osg::Vec2Array* tex = new osg::Vec2Array;
 		tex->push_back( osg::Vec2d( 0.005, 0.005 ) );
 		tex->push_back( osg::Vec2d( 0.995, 0.005 ) );
 		tex->push_back( osg::Vec2d( 0.995, 0.995 ) );
 		tex->push_back( osg::Vec2d( 0.005, 0.995 ) );
-				
+
 		geom->setTexCoordArray( 0, tex );
 		geom->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::QUADS, 0, 4 ) );
-		
+
 		g->addDrawable( geom );
 		if( gAtomColors.size() )
 		{
 			osg::Vec4Array* colorArray = new osg::Vec4Array;
-			colorArray->push_back( gAtomColors[ std::min( i, int( gAtomColors.size() - 1 ) ) ] ); 
+			colorArray->push_back( gAtomColors[ std::min( i, int( gAtomColors.size() - 1 ) ) ] );
 			// An index array for assigning vertices to colors (based on index in the array)
 			//osg::TemplateIndexArray< GLuint, osg::Array::UIntArrayType, 4, 1 >* colorIndexArray;
-			//colorIndexArray = 
+			//colorIndexArray =
 			//	new osg::TemplateIndexArray< GLuint, osg::Array::UIntArrayType, 4, 1 >;
 			//colorIndexArray->push_back( 0 );
 			geom->setColorArray( colorArray );
 			//geom->setColorIndices( colorIndexArray );
-			geom->setColorBinding( osg::Geometry::BIND_OVERALL );	
-			
+			geom->setColorBinding( osg::Geometry::BIND_OVERALL );
+
 			osg::StateSet* ss = g->getOrCreateStateSet();
 			ss->setTextureAttributeAndModes( 0, texture.get(), osg::StateAttribute::ON );
 
@@ -1810,14 +1810,14 @@ osg::Group* CreateMoleculeGeometry( const std::string& fname,
 	const int numAtoms = mol->NumAtoms();
 	//iterate over atoms and add one transform and one atom
 	if( atoms )
-	{ 
+	{
 		for( int a = 0; a != numAtoms; ++a )
-	    {	
+	    {
 			osg::PositionAttitudeTransform* t = new osg::PositionAttitudeTransform;
 			OBAtom* atom = mol->GetAtom( a + 1 );
 			osg::Vec3d p( atom->GetX(), atom->GetY(), atom->GetZ() );
 			t->setPosition( p );
-						
+
 			osg::ref_ptr< osg::Geode > g = gAtoms[ atom->GetAtomicNum() ];
 			osg::Geometry* gg = new osg::Geometry;
 			osg::Geometry* geom = gAtoms[ atom->GetAtomicNum() ]->getDrawable( 0 )->asGeometry();
@@ -1833,37 +1833,37 @@ osg::Group* CreateMoleculeGeometry( const std::string& fname,
 				g = new osg::Geode;
 				g->addDrawable( gg );
 			}
-			
+
 			gg->setVertexArray( geom->getVertexArray() );
 			if( billboard && texture )
 			{
 				gg->setTexCoordArray( 0, geom->getTexCoordArray( 0 ) );
 				gg->setColorArray( geom->getColorArray() );
 				gg->setColorBinding( osg::Geometry::BIND_OVERALL );
-				
+
 			}
 			else
 			{
 				gg->setNormalArray( geom->getNormalArray() );
-				gg->setNormalBinding( osg::Geometry::BIND_PER_VERTEX ); 
+				gg->setNormalBinding( osg::Geometry::BIND_PER_VERTEX );
 			}
-			
+
 			g->setStateSet( gAtoms[ atom->GetAtomicNum() ]->getStateSet() );
 			for ( GLuint ipr=0; ipr < geom->getNumPrimitiveSets(); ipr++ )
 			{
 				osg::PrimitiveSet* prs = geom->getPrimitiveSet( ipr );
 				gg->addPrimitiveSet( prs );
 			}
-			
+
 			if( !billboard )
 			{
 				t->addChild( g.get() );
 				group->addChild( t );
 			}
-			else group->addChild( g.get() ); 
+			else group->addChild( g.get() );
 		}
 	}
-		
+
 	if( bonds )
 	{
 		std::set< OBAtom* > bonded;
@@ -1914,9 +1914,9 @@ osg::Group* CreateBillboardMoleculeGeometry( const std::string& fname,
 	const int numAtoms = mol->NumAtoms();
 	//iterate over atoms and add one transform and one atom
 	if( atoms )
-	{ 
+	{
 		for( int a = 0; a != numAtoms; ++a )
-	    {	
+	    {
 			OBAtom* atom = mol->GetAtom( a + 1 );
 			osg::Vec3d p( atom->GetX(), atom->GetY(), atom->GetZ() );
 			osg::ref_ptr< osg::Billboard > b = new osg::Billboard;
@@ -1929,17 +1929,17 @@ osg::Group* CreateBillboardMoleculeGeometry( const std::string& fname,
 			gg->setTexCoordArray( 0, geom->getTexCoordArray( 0 ) );
 			gg->setColorBinding( osg::Geometry::BIND_PER_VERTEX );
 			//gg->setNormalArray( geom->getNormalArray() );
-			//gg->setNormalBinding( osg::Geometry::BIND_PER_VERTEX ); 
+			//gg->setNormalBinding( osg::Geometry::BIND_PER_VERTEX );
 			b->setStateSet( gAtoms[ atom->GetAtomicNum() ]->getStateSet() );
 			for ( GLuint ipr=0; ipr < geom->getNumPrimitiveSets(); ipr++ )
 			{
 				osg::PrimitiveSet* prs = geom->getPrimitiveSet( ipr );
 				gg->addPrimitiveSet( prs );
 			}
-			group->addChild( b.get() ); 
+			group->addChild( b.get() );
 		}
 	}
-		
+
 	if( bonds )
 	{
 		std::set< OBAtom* > bonded;
@@ -1987,11 +1987,11 @@ osg::Group* CreateMoleculeGeometry2( const std::string& fname,
 	geode->setStateSet( gAtoms[ 6 ]->getStateSet() );
 	const int numAtoms = mol->NumAtoms();
 	for( int a = 0; a != numAtoms; ++a )
-    {	
+    {
 		OBAtom* atom = mol->GetAtom( a + 1 );
 		osg::Vec3d p( atom->GetX(), atom->GetY(), atom->GetZ() );
 		osg::Geometry* gg = new osg::Geometry;
-		//gg->setUseVertexBufferObjects( true );	
+		//gg->setUseVertexBufferObjects( true );
 		osg::Geometry* geom = gAtoms[ atom->GetAtomicNum() ]->getDrawable( 0 )->asGeometry();
 		geode->addDrawable( gg, p );
 		gg->setVertexArray( geom->getVertexArray() );
@@ -2002,7 +2002,7 @@ osg::Group* CreateMoleculeGeometry2( const std::string& fname,
 		{
 			osg::PrimitiveSet* prs = geom->getPrimitiveSet( ipr );
 			gg->addPrimitiveSet( prs );
-		}	
+		}
 	}
 	osg::ref_ptr< osg::Group > group = new osg::Group;
 	group->addChild( geode.get() );
@@ -2067,7 +2067,7 @@ osg::Group* CreatePointSpriteMoleculeGeometry( const std::string& fname,
 	GEOMETRIES geometries;
 	const MolekelElement* et = GetElementTable();
 	for( int a = 0; a != numAtoms; ++a )
-    {	
+    {
 		OBAtom* atom = mol->GetAtom( a + 1 );
 		osg::Vec3d p( atom->GetX(), atom->GetY(), atom->GetZ() );
 		osg::Geometry* geom = gAtoms[ atom->GetAtomicNum() ]->getDrawable( 0 )->asGeometry();
@@ -2078,12 +2078,12 @@ osg::Group* CreatePointSpriteMoleculeGeometry( const std::string& fname,
 			osg::ref_ptr< osg::Vec4Array > colors = new osg::Vec4Array;
 			colors->push_back( gAtomColors[ atom->GetAtomicNum() ] );
 			geometries[ atom->GetAtomicNum() ]->setColorArray( colors.get() );
-			geometries[ atom->GetAtomicNum() ]->setColorBinding(osg::Geometry::BIND_OVERALL );			
+			geometries[ atom->GetAtomicNum() ]->setColorBinding(osg::Geometry::BIND_OVERALL );
 		}
 		osg::Vec3Array* coords = static_cast< osg::Vec3Array* >( geometries[ atom->GetAtomicNum() ]->getVertexArray() );
-		coords->push_back( p );		
+		coords->push_back( p );
 	}
-	
+
 	osg::ref_ptr< osg::Group > group = new osg::Group;
 	for( GEOMETRIES::iterator i = geometries.begin(); i != geometries.end(); ++i )
 	{
@@ -2108,7 +2108,7 @@ static const char gVertexSource[] =
     "void main(void)\n"
     "{\n"
         "    gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;\n"
-	"    gl_PointSize = 100.0;\n" 
+	"    gl_PointSize = 100.0;\n"
     "}\n";
 
 osg::StateSet* makeShaderStateSet( float size )
@@ -2117,7 +2117,7 @@ osg::StateSet* makeShaderStateSet( float size )
 
     /// Setup cool blending
     set->setMode( GL_BLEND, osg::StateAttribute::ON );
-	
+
 	/// Add shaders
 	set->setMode( GL_VERTEX_PROGRAM_POINT_SIZE, osg::StateAttribute::ON );
 	osg::Program* program = new osg::Program;
@@ -2126,7 +2126,7 @@ osg::StateSet* makeShaderStateSet( float size )
     //program->addShader( new osg::Shader( osg::Shader::FRAGMENT, gFragSource ) );
 	set->setAttributeAndModes( program, osg::StateAttribute::ON );
 	set->addUniform( new osg::Uniform( "radius", size ) );
-	
+
     //osg::BlendFunc *fn = new osg::BlendFunc();
     //fn->setFunction(osg::BlendFunc::SRC_ALPHA, osg::BlendFunc::DST_ALPHA);
     //set->setAttributeAndModes(fn, osg::StateAttribute::ON);
@@ -2180,7 +2180,7 @@ osg::Group* CreateShaderPointSpriteMoleculeGeometry( const std::string& fname,
 	gg->setColorBinding(osg::Geometry::BIND_PER_VERTEX);
     gg->addPrimitiveSet(new osg::DrawArrays( osg::PrimitiveSet::POINTS, 0, numAtoms ));
 	for( int a = 0; a != numAtoms; ++a )
-    {	
+    {
 		OBAtom* atom = mol->GetAtom( a + 1 );
 		osg::Vec3d p( atom->GetX(), atom->GetY(), atom->GetZ() );
 		osg::Geometry* geom = gAtoms[ atom->GetAtomicNum() ]->getDrawable( 0 )->asGeometry();
@@ -2189,12 +2189,12 @@ osg::Group* CreateShaderPointSpriteMoleculeGeometry( const std::string& fname,
 	}
 	g->setStateSet( makeShaderStateSet( 100.0f ) );
 	osg::ref_ptr< osg::Group > group = new osg::Group;
-	group->addChild( g.get() ); 
+	group->addChild( g.get() );
 	return group.release();
 }
 
 
- 
+
 
 //------------------------------------------------------------------------------
 #include "quadcylinder.vert.h"
@@ -2235,11 +2235,11 @@ osg::Group* CreateRayTracedMoleculeGeometry( const std::string& fname,
 	}
 
 	osg::ref_ptr< osg::Group > group = new osg::Group;
-	 
+
 	for( int a = 0; a != numAtoms && atoms; ++a )
-    {	
+    {
 		OBAtom* atom = mol->GetAtom( a + 1 );
-		osg::Vec3d p( atom->GetX(), atom->GetY(), atom->GetZ() ); 
+		osg::Vec3d p( atom->GetX(), atom->GetY(), atom->GetZ() );
 		osg::ref_ptr< osg::Geometry > geom;
 		if( billboards.find( atom->GetAtomicNum() ) == billboards.end() )
 		{
@@ -2247,13 +2247,13 @@ osg::Group* CreateRayTracedMoleculeGeometry( const std::string& fname,
 		    billboards[ atom->GetAtomicNum() ]->setMode( osg::Billboard::POINT_ROT_EYE );
 			osg::ref_ptr< osg::Vec4Array > colors = new osg::Vec4Array;
 			colors->push_back( gAtomColors[ atom->GetAtomicNum() ] );
-					
+
 			osg::StateSet* set = billboards[ atom->GetAtomicNum() ]->getOrCreateStateSet();
 			set->setAttributeAndModes( aprogram.get(), osg::StateAttribute::ON );
 			float radius = radScale * et[ atom->GetAtomicNum() ].vdwRadius;
 			set->addUniform( new osg::Uniform( "radius", radius ) );
 			set->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
-			
+
 			geom = new osg::Geometry;
 			if( gAtomColors.size() )
 			{
@@ -2268,15 +2268,15 @@ osg::Group* CreateRayTracedMoleculeGeometry( const std::string& fname,
 			coord->push_back( osg::Vec3d( -radius, -radius, -radius ) );
 			coord->push_back( osg::Vec3d(  radius, -radius, -radius ) );
 			coord->push_back( osg::Vec3d(  radius, -radius,  radius ) );
-			coord->push_back( osg::Vec3d( -radius, -radius,  radius ) );		
+			coord->push_back( osg::Vec3d( -radius, -radius,  radius ) );
 			geom->setVertexArray( coord.get() );
 			geom->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::QUADS, 0, 4 ) );
-			group->addChild( billboards[ atom->GetAtomicNum() ].get() );			
+			group->addChild( billboards[ atom->GetAtomicNum() ].get() );
 		}
 		else geom = billboards[ atom->GetAtomicNum() ]->getDrawable( 0 )->asGeometry();
-		billboards[ atom->GetAtomicNum() ]->addDrawable( geom.get(), p );		
+		billboards[ atom->GetAtomicNum() ]->addDrawable( geom.get(), p );
 	}
-	
+
 	// BONDS
 	//if( bonds )
 	//{
@@ -2295,7 +2295,7 @@ osg::Group* CreateRayTracedMoleculeGeometry( const std::string& fname,
 	//		group->addChild( CreateBondGroup6( p0, begin->GetAtomicNum(), p1, end->GetAtomicNum(), a0, a1 ) );
 	//		if( liquorice )
 	//		{
-	//			bonded.insert( begin ); 
+	//			bonded.insert( begin );
 	//			bonded.insert( end   );
 	//		}
 	//	}
@@ -2307,7 +2307,7 @@ osg::Group* CreateRayTracedMoleculeGeometry( const std::string& fname,
 		const int numBonds = mol->NumBonds();
 		osg::ref_ptr< osg::Billboard > geode = new osg::Billboard;
 		geode->setMode( osg::Billboard::POINT_ROT_EYE );
-			
+
 		static osg::ref_ptr< osg::Program > bprogram;
 		if( bprogram == 0 )
 		{
@@ -2322,7 +2322,7 @@ osg::Group* CreateRayTracedMoleculeGeometry( const std::string& fname,
 		set->addUniform( new osg::Uniform( "radius", liqRadius ) );
 		set->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
 		group->addChild( geode.get() );
-		
+
 		for( int b = 0; b != numBonds; ++b )
 		{
 			OBBond* bond = mol->GetBond( b );
@@ -2338,24 +2338,24 @@ osg::Group* CreateRayTracedMoleculeGeometry( const std::string& fname,
 			const osg::Vec3d th = ( half + p1 ) * 0.5;
 			const osg::Vec3d bdir = half - p0;
 			const osg::Vec3d tdir = p1 - half;
-			
-			const double l = bdir.length(); 
+
+			const double l = bdir.length();
 			const double r = 0.2;
 			osg::Matrixd R;
 			osg::Vec3d d = bdir;
 			d.normalize();
 			R.makeRotate( osg::Vec3d( 0., 1., 0. ), d );
 			osg::BoundingBox bbox;
-			bbox.expandBy( osg::Vec3d( -r, -.5*l, -r ) * R ); 
+			bbox.expandBy( osg::Vec3d( -r, -.5*l, -r ) * R );
 			bbox.expandBy( osg::Vec3d(  r, -.5*l, -r ) * R );
 			bbox.expandBy( osg::Vec3d(  r,  .5*l, -r ) * R );
 			bbox.expandBy( osg::Vec3d( -r,  .5*l, -r ) * R );
-			bbox.expandBy( osg::Vec3d( -r, -.5*l,  r ) * R ); 
+			bbox.expandBy( osg::Vec3d( -r, -.5*l,  r ) * R );
 			bbox.expandBy( osg::Vec3d(  r, -.5*l,  r ) * R );
 			bbox.expandBy( osg::Vec3d(  r,  .5*l, r ) * R );
 			bbox.expandBy( osg::Vec3d( -r,  .5*l, r ) * R );
 			const double br = bbox.radius();
-						
+
 
 			osg::ref_ptr< osg::Geometry >  geom1   = new osg::Geometry;
 			osg::ref_ptr< osg::Vec4Array > colors1 = new osg::Vec4Array;
@@ -2379,7 +2379,7 @@ osg::Group* CreateRayTracedMoleculeGeometry( const std::string& fname,
 			colors1->push_back( gAtomColors[ begin->GetAtomicNum() ] );
 			colors1->push_back( gAtomColors[ begin->GetAtomicNum() ] );
 			colors1->push_back( gAtomColors[ begin->GetAtomicNum() ] );
-			
+
 			osg::ref_ptr< osg::Geometry >  geom2   = new osg::Geometry;
 			osg::ref_ptr< osg::Vec4Array > colors2 = new osg::Vec4Array;
 			osg::ref_ptr< osg::Vec3Array > quads2  = new osg::Vec3Array;
@@ -2402,7 +2402,7 @@ osg::Group* CreateRayTracedMoleculeGeometry( const std::string& fname,
 			colors2->push_back( gAtomColors[ end->GetAtomicNum() ] );
 			colors2->push_back( gAtomColors[ end->GetAtomicNum() ] );
 			colors2->push_back( gAtomColors[ end->GetAtomicNum() ] );
-			
+
 			geode->addDrawable( geom1.get(), bh );
 			geode->addDrawable( geom2.get(), th );
 
@@ -2434,17 +2434,17 @@ osg::Group* CreateRayTracedMoleculeGeometry2( const std::string& fname,
 	const float liqRadius = radScale;
 	OBConversion obConversion;
 	if( !bonds ) obConversion.AddOption( "b", OBConversion::INOPTIONS );
-    obConversion.SetInFormat( format.c_str() );   
+    obConversion.SetInFormat( format.c_str() );
 	OBMol* mol = new OBMol;
 	std::ifstream in( fname.c_str() );
 	if( !in ) return 0;
 	bool ok = obConversion.Read( mol, &in );
-	if( !ok ) return 0; 
+	if( !ok ) return 0;
 
 	const int numAtoms = mol->NumAtoms();
 	typedef std::map< int, osg::ref_ptr< osg::Geode > > GEODES;
-	GEODES geodes; 
-	const MolekelElement* et = GetElementTable();  
+	GEODES geodes;
+	const MolekelElement* et = GetElementTable();
 	static osg::ref_ptr< osg::Program > aprogram;
 	if( aprogram == 0 )
 	{
@@ -2455,11 +2455,11 @@ osg::Group* CreateRayTracedMoleculeGeometry2( const std::string& fname,
 	}
 
 	osg::ref_ptr< osg::Group > group = new osg::Group;
-	 
+
 	for( int a = 0; a != numAtoms && atoms; ++a )
-    {	
+    {
 		OBAtom* atom = mol->GetAtom( a + 1 );
-		osg::Vec3d p( atom->GetX(), atom->GetY(), atom->GetZ() ); 
+		osg::Vec3d p( atom->GetX(), atom->GetY(), atom->GetZ() );
 		float radius = liquorice ? liqRadius : radScale * et[ atom->GetAtomicNum() ].vdwRadius;
 		if( geodes.find( atom->GetAtomicNum() ) == geodes.end() )
 		{
@@ -2468,12 +2468,12 @@ osg::Group* CreateRayTracedMoleculeGeometry2( const std::string& fname,
 			set->setAttributeAndModes( aprogram.get(), osg::StateAttribute::ON );
 			set->addUniform( new osg::Uniform( "radius", radius ) );
 			set->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
-			
+
 			osg::ref_ptr< osg::Geometry >  geom   = new osg::Geometry;
 			osg::ref_ptr< osg::Vec4Array > colors = new osg::Vec4Array;
 			osg::ref_ptr< osg::Vec3Array > quads  = new osg::Vec3Array;
 			osg::ref_ptr< osg::Vec3Array > pos	  = new osg::Vec3Array;
-			
+
 			geom->setVertexArray( quads.get() );
 			geom->setColorArray( colors.get() );
 			const int texUnit = 1;
@@ -2481,11 +2481,11 @@ osg::Group* CreateRayTracedMoleculeGeometry2( const std::string& fname,
 			geom->setNormalBinding( osg::Geometry::BIND_PER_VERTEX );
 			geom->setColorBinding( osg::Geometry::BIND_PER_VERTEX );
 			geodes[ atom->GetAtomicNum() ]->addDrawable( geom.get() );
-			
+
 			quads->push_back( p + osg::Vec3d( -radius, -radius, 0. ) );
 			quads->push_back( p + osg::Vec3d(  radius, -radius, 0. ) );
 			quads->push_back( p + osg::Vec3d(  radius, radius, 0. ) );
-			quads->push_back( p + osg::Vec3d( -radius, radius, 0. ) );		
+			quads->push_back( p + osg::Vec3d( -radius, radius, 0. ) );
 			pos->push_back( p );
 			pos->push_back( p );
 			pos->push_back( p );
@@ -2495,7 +2495,7 @@ osg::Group* CreateRayTracedMoleculeGeometry2( const std::string& fname,
 			colors->push_back( gAtomColors[ atom->GetAtomicNum() ] );
 			colors->push_back( gAtomColors[ atom->GetAtomicNum() ] );
 
-			group->addChild( geodes[ atom->GetAtomicNum() ].get() );			
+			group->addChild( geodes[ atom->GetAtomicNum() ].get() );
 		}
 		else
 		{
@@ -2506,7 +2506,7 @@ osg::Group* CreateRayTracedMoleculeGeometry2( const std::string& fname,
 			quads->push_back( p + osg::Vec3d( -radius, -radius, 0. ) );
 			quads->push_back( p + osg::Vec3d(  radius, -radius, 0. ) );
 			quads->push_back( p + osg::Vec3d(  radius, radius, 0. ) );
-			quads->push_back( p + osg::Vec3d( -radius, radius, 0. ) );		
+			quads->push_back( p + osg::Vec3d( -radius, radius, 0. ) );
 			pos->push_back( p );
 			pos->push_back( p );
 			pos->push_back( p );
@@ -2517,7 +2517,7 @@ osg::Group* CreateRayTracedMoleculeGeometry2( const std::string& fname,
 			colors->push_back( gAtomColors[ atom->GetAtomicNum() ] );
 		}
 	}
-	
+
 	if( atoms )
 	{
 		for( GEODES::iterator i = geodes.begin(); i != geodes.end(); ++i )
@@ -2535,7 +2535,7 @@ osg::Group* CreateRayTracedMoleculeGeometry2( const std::string& fname,
 		std::set< OBAtom* > bonded;
 		const int numBonds = mol->NumBonds();
 		osg::ref_ptr< osg::Geode > geode = new osg::Geode;
-					
+
 		static osg::ref_ptr< osg::Program > bprogram;
 		if( bprogram == 0 )
 		{
@@ -2581,25 +2581,25 @@ osg::Group* CreateRayTracedMoleculeGeometry2( const std::string& fname,
 			const osg::Vec3d th = ( half + p1 ) * 0.5;
 			const osg::Vec3d bdir = half - p0;
 			const osg::Vec3d tdir = p1 - half;
-			
-			const double l = bdir.length(); 
+
+			const double l = bdir.length();
 			const double r = 0.2;
 			osg::Matrixd R;
 			osg::Vec3d d = bdir;
 			d.normalize();
 			R.makeRotate( osg::Vec3d( 0., 1., 0. ), d );
 			osg::BoundingBox bbox;
-			bbox.expandBy( osg::Vec3d( -r, -.5*l, -r ) * R ); 
+			bbox.expandBy( osg::Vec3d( -r, -.5*l, -r ) * R );
 			bbox.expandBy( osg::Vec3d(  r, -.5*l, -r ) * R );
 			bbox.expandBy( osg::Vec3d(  r,  .5*l, -r ) * R );
 			bbox.expandBy( osg::Vec3d( -r,  .5*l, -r ) * R );
-			bbox.expandBy( osg::Vec3d( -r, -.5*l,  r ) * R ); 
+			bbox.expandBy( osg::Vec3d( -r, -.5*l,  r ) * R );
 			bbox.expandBy( osg::Vec3d(  r, -.5*l,  r ) * R );
 			bbox.expandBy( osg::Vec3d(  r,  .5*l, r ) * R );
 			bbox.expandBy( osg::Vec3d( -r,  .5*l, r ) * R );
 			const double br = bbox.radius();
-						
-			
+
+
 			quads->push_back( bh + osg::Vec3d( -br , -br, br ) );
 			quads->push_back( bh + osg::Vec3d(  br , -br, br ) );
 			quads->push_back( bh + osg::Vec3d(  br ,  br, br ) );
@@ -2616,7 +2616,7 @@ osg::Group* CreateRayTracedMoleculeGeometry2( const std::string& fname,
 			pos->push_back( bh );
 			pos->push_back( bh );
 			pos->push_back( bh );
-						
+
 			quads->push_back( th + osg::Vec3d( -br , -br, br ) );
 			quads->push_back( th + osg::Vec3d(  br , -br, br ) );
 			quads->push_back( th + osg::Vec3d(  br ,  br, br ) );
@@ -2633,7 +2633,7 @@ osg::Group* CreateRayTracedMoleculeGeometry2( const std::string& fname,
 			pos->push_back( th );
 			pos->push_back( th );
 			pos->push_back( th );
-			
+
 			if( liquorice )
 			{
 				bonded.insert( begin );
@@ -2651,11 +2651,11 @@ void AddBox( const osg::Vec3d& p, double radius, osg::Geometry* geom, int n )
 	osg::ref_ptr< osg::Vec4Array > colors = static_cast< osg::Vec4Array* >( geom->getColorArray()  );
 	osg::ref_ptr< osg::Vec3Array > quads  = static_cast< osg::Vec3Array* >( geom->getVertexArray() );
 	osg::ref_ptr< osg::Vec3Array > pos	  = static_cast< osg::Vec3Array* >( geom->getTexCoordArray( 1 ) );
-	
+
 	// back
 	quads->push_back( p + osg::Vec3d(  radius, -radius, -radius ) );
 	quads->push_back( p + osg::Vec3d(  -radius, -radius, -radius ) );
-	quads->push_back( p + osg::Vec3d( -radius, radius, -radius ) );		
+	quads->push_back( p + osg::Vec3d( -radius, radius, -radius ) );
 	quads->push_back( p + osg::Vec3d(  radius, radius, -radius ) );
 	pos->push_back( p );
 	pos->push_back( p );
@@ -2669,7 +2669,7 @@ void AddBox( const osg::Vec3d& p, double radius, osg::Geometry* geom, int n )
 	quads->push_back( p + osg::Vec3d( -radius, -radius, radius ) );
 	quads->push_back( p + osg::Vec3d(  radius, -radius, radius ) );
 	quads->push_back( p + osg::Vec3d(  radius, radius, radius ) );
-	quads->push_back( p + osg::Vec3d( -radius, radius, radius ) );		
+	quads->push_back( p + osg::Vec3d( -radius, radius, radius ) );
 	pos->push_back( p );
 	pos->push_back( p );
 	pos->push_back( p );
@@ -2680,7 +2680,7 @@ void AddBox( const osg::Vec3d& p, double radius, osg::Geometry* geom, int n )
 	colors->push_back( gAtomColors[ n ] );
 	// top
 	quads->push_back( p + osg::Vec3d( -radius, radius, -radius ) );
-	quads->push_back( p + osg::Vec3d( -radius, radius, radius ) );		
+	quads->push_back( p + osg::Vec3d( -radius, radius, radius ) );
 	quads->push_back( p + osg::Vec3d(  radius, radius, radius ) );
 	quads->push_back( p + osg::Vec3d(  radius, radius, -radius ) );
 	pos->push_back( p );
@@ -2695,7 +2695,7 @@ void AddBox( const osg::Vec3d& p, double radius, osg::Geometry* geom, int n )
 	quads->push_back( p + osg::Vec3d( -radius, -radius, -radius ) );
 	quads->push_back( p + osg::Vec3d(  radius, -radius, -radius ) );
 	quads->push_back( p + osg::Vec3d(  radius, -radius, radius ) );
-	quads->push_back( p + osg::Vec3d( -radius, -radius, radius ) );		
+	quads->push_back( p + osg::Vec3d( -radius, -radius, radius ) );
 	pos->push_back( p );
 	pos->push_back( p );
 	pos->push_back( p );
@@ -2708,7 +2708,7 @@ void AddBox( const osg::Vec3d& p, double radius, osg::Geometry* geom, int n )
 	quads->push_back( p + osg::Vec3d( -radius, -radius, -radius ) );
 	quads->push_back( p + osg::Vec3d( -radius, -radius,  radius ) );
 	quads->push_back( p + osg::Vec3d( -radius, radius,   radius ) );
-	quads->push_back( p + osg::Vec3d( -radius, radius, -radius ) );		
+	quads->push_back( p + osg::Vec3d( -radius, radius, -radius ) );
 	pos->push_back( p );
 	pos->push_back( p );
 	pos->push_back( p );
@@ -2721,7 +2721,7 @@ void AddBox( const osg::Vec3d& p, double radius, osg::Geometry* geom, int n )
 	quads->push_back( p + osg::Vec3d( radius, -radius, -radius ) );
 	quads->push_back( p + osg::Vec3d( radius, radius,  -radius ) );
 	quads->push_back( p + osg::Vec3d( radius, radius,   radius ) );
-	quads->push_back( p + osg::Vec3d( radius, -radius, radius ) );		
+	quads->push_back( p + osg::Vec3d( radius, -radius, radius ) );
 	pos->push_back( p );
 	pos->push_back( p );
 	pos->push_back( p );
@@ -2745,17 +2745,17 @@ osg::Group* CreateRayTracedMoleculeGeometry3( const std::string& fname,
 	const float liqRadius = radScale;
 	OBConversion obConversion;
 	if( !bonds ) obConversion.AddOption( "b", OBConversion::INOPTIONS );
-    obConversion.SetInFormat( format.c_str() );   
+    obConversion.SetInFormat( format.c_str() );
 	OBMol* mol = new OBMol;
 	std::ifstream in( fname.c_str() );
 	if( !in ) return 0;
 	bool ok = obConversion.Read( mol, &in );
-	if( !ok ) return 0; 
+	if( !ok ) return 0;
 
 	const int numAtoms = mol->NumAtoms();
 	typedef std::map< int, osg::ref_ptr< osg::Geode > > GEODES;
-	GEODES geodes; 
-	const MolekelElement* et = GetElementTable();  
+	GEODES geodes;
+	const MolekelElement* et = GetElementTable();
 	static osg::ref_ptr< osg::Program > aprogram;
 	if( aprogram == 0 )
 	{
@@ -2766,11 +2766,11 @@ osg::Group* CreateRayTracedMoleculeGeometry3( const std::string& fname,
 	}
 
 	osg::ref_ptr< osg::Group > group = new osg::Group;
-	 
+
 	for( int a = 0; a != numAtoms && atoms; ++a )
-    {	
+    {
 		OBAtom* atom = mol->GetAtom( a + 1 );
-		osg::Vec3d p( atom->GetX(), atom->GetY(), atom->GetZ() ); 
+		osg::Vec3d p( atom->GetX(), atom->GetY(), atom->GetZ() );
 		float radius = liquorice ? liqRadius : radScale * et[ atom->GetAtomicNum() ].vdwRadius;
 		if( geodes.find( atom->GetAtomicNum() ) == geodes.end() )
 		{
@@ -2784,17 +2784,17 @@ osg::Group* CreateRayTracedMoleculeGeometry3( const std::string& fname,
 			osg::ref_ptr< osg::Vec4Array > colors = new osg::Vec4Array;
 			osg::ref_ptr< osg::Vec3Array > quads  = new osg::Vec3Array;
 			osg::ref_ptr< osg::Vec3Array > pos	  = new osg::Vec3Array;
-			
+
 			geom->setVertexArray( quads.get() );
 			geom->setColorArray( colors.get() );
 			const int texUnit = 1;
 			geom->setTexCoordArray( texUnit, pos.get() );
 			geom->setColorBinding( osg::Geometry::BIND_PER_VERTEX );
 			geodes[ atom->GetAtomicNum() ]->addDrawable( geom.get() );
-			
+
 			AddBox( p, radius, geom.get(), atom->GetAtomicNum() );
 
-			group->addChild( geodes[ atom->GetAtomicNum() ].get() );			
+			group->addChild( geodes[ atom->GetAtomicNum() ].get() );
 		}
 		else
 		{
@@ -2802,7 +2802,7 @@ osg::Group* CreateRayTracedMoleculeGeometry3( const std::string& fname,
 			AddBox( p, radius, geom, atom->GetAtomicNum() );
 		}
 	}
-	
+
 	if( atoms )
 	{
 		for( GEODES::iterator i = geodes.begin(); i != geodes.end(); ++i )
@@ -2820,7 +2820,7 @@ osg::Group* CreateRayTracedMoleculeGeometry3( const std::string& fname,
 		std::set< OBAtom* > bonded;
 		const int numBonds = mol->NumBonds();
 		osg::ref_ptr< osg::Geode > geode = new osg::Geode;
-					
+
 		static osg::ref_ptr< osg::Program > bprogram;
 		if( bprogram == 0 )
 		{
@@ -2866,25 +2866,25 @@ osg::Group* CreateRayTracedMoleculeGeometry3( const std::string& fname,
 			const osg::Vec3d th = ( half + p1 ) * 0.5;
 			const osg::Vec3d bdir = half - p0;
 			const osg::Vec3d tdir = p1 - half;
-			
-			const double l = bdir.length(); 
+
+			const double l = bdir.length();
 			const double r = 0.2;
 			osg::Matrixd R;
 			osg::Vec3d d = bdir;
 			d.normalize();
 			R.makeRotate( osg::Vec3d( 0., 1., 0. ), d );
 			osg::BoundingBox bbox;
-			bbox.expandBy( osg::Vec3d( -r, -.5*l, -r ) * R ); 
+			bbox.expandBy( osg::Vec3d( -r, -.5*l, -r ) * R );
 			bbox.expandBy( osg::Vec3d(  r, -.5*l, -r ) * R );
 			bbox.expandBy( osg::Vec3d(  r,  .5*l, -r ) * R );
 			bbox.expandBy( osg::Vec3d( -r,  .5*l, -r ) * R );
-			bbox.expandBy( osg::Vec3d( -r, -.5*l,  r ) * R ); 
+			bbox.expandBy( osg::Vec3d( -r, -.5*l,  r ) * R );
 			bbox.expandBy( osg::Vec3d(  r, -.5*l,  r ) * R );
 			bbox.expandBy( osg::Vec3d(  r,  .5*l, r ) * R );
 			bbox.expandBy( osg::Vec3d( -r,  .5*l, r ) * R );
 			const double br = bbox.radius();
-						
-			
+
+
 			quads->push_back( bh + osg::Vec3d( -br , -br, br ) );
 			quads->push_back( bh + osg::Vec3d(  br , -br, br ) );
 			quads->push_back( bh + osg::Vec3d(  br ,  br, br ) );
@@ -2901,7 +2901,7 @@ osg::Group* CreateRayTracedMoleculeGeometry3( const std::string& fname,
 			pos->push_back( bh );
 			pos->push_back( bh );
 			pos->push_back( bh );
-						
+
 			quads->push_back( th + osg::Vec3d( -br , -br, br ) );
 			quads->push_back( th + osg::Vec3d(  br , -br, br ) );
 			quads->push_back( th + osg::Vec3d(  br ,  br, br ) );
@@ -2918,7 +2918,7 @@ osg::Group* CreateRayTracedMoleculeGeometry3( const std::string& fname,
 			pos->push_back( th );
 			pos->push_back( th );
 			pos->push_back( th );
-			
+
 			if( liquorice )
 			{
 				bonded.insert( begin );
@@ -2963,13 +2963,13 @@ osg::Group* CreatePointRayTracedMoleculeGeometry( const std::string& fname,
 		aprogram->addShader( new osg::Shader( osg::Shader::FRAGMENT, POINTSPHEREFRAG ) );
 		aprogram->addShader( new osg::Shader( osg::Shader::VERTEX, POINTSPHEREVERT ) );
 	}
-	
+
 	const bool perVertexColor = true; //useful for AO computation
- 
+
 	for( int a = 0; a != numAtoms && atoms; ++a )
-    {	
+    {
 		OBAtom* atom = mol->GetAtom( a + 1 );
-		osg::Vec3d p( atom->GetX(), atom->GetY(), atom->GetZ() ); 
+		osg::Vec3d p( atom->GetX(), atom->GetY(), atom->GetZ() );
 		osg::ref_ptr< osg::Geometry > geom;
 		if( geodes.find( atom->GetAtomicNum() ) == geodes.end() )
 		{
@@ -3024,7 +3024,7 @@ osg::Group* CreatePointRayTracedMoleculeGeometry( const std::string& fname,
 		if( !coord ) continue;
 		g->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::POINTS, 0, coord->size() ) );
 	}
-	
+
 
 	// BONDS
 	if( bonds )
@@ -3081,7 +3081,7 @@ osg::Group* CreatePointRayTracedMoleculeGeometry2( const std::string& fname,
 	typedef std::map< int, osg::ref_ptr< osg::Geode > > GEODES;
 	GEODES geodes;
 	const MolekelElement* et = GetElementTable();
-	osg::ref_ptr< osg::Group > group = new osg::Group; 
+	osg::ref_ptr< osg::Group > group = new osg::Group;
 
 	//ATOMS
 	static osg::ref_ptr< osg::Program > aprogram;
@@ -3092,13 +3092,13 @@ osg::Group* CreatePointRayTracedMoleculeGeometry2( const std::string& fname,
 		aprogram->addShader( new osg::Shader( osg::Shader::FRAGMENT, COOLAOPOINTSPHEREFRAG ) );
 		aprogram->addShader( new osg::Shader( osg::Shader::VERTEX, AOPOINTSPHEREVERT ) );
 	}
-	
+
 	const bool perVertexColor = true; //useful for AO computation
- 
+
 	for( int a = 0; a != numAtoms && atoms; ++a )
-    {	
+    {
 		OBAtom* atom = mol->GetAtom( a + 1 );
-		osg::Vec3d p( atom->GetX(), atom->GetY(), atom->GetZ() ); 
+		osg::Vec3d p( atom->GetX(), atom->GetY(), atom->GetZ() );
 		osg::ref_ptr< osg::Geometry > geom;
 		if( geodes.find( atom->GetAtomicNum() ) == geodes.end() )
 		{
@@ -3155,7 +3155,7 @@ osg::Group* CreatePointRayTracedMoleculeGeometry2( const std::string& fname,
 		if( !coord ) continue;
 		g->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::POINTS, 0, coord->size() ) );
 	}
-	
+
 
 	// BONDS
 	if( bonds )
@@ -3174,7 +3174,7 @@ osg::Group* CreatePointRayTracedMoleculeGeometry2( const std::string& fname,
 		geom->setNormalBinding( osg::Geometry::BIND_PER_VERTEX );
 		geom->setColorBinding( osg::Geometry::BIND_PER_VERTEX );
 		geom->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::POINTS, 0, 2 * numBonds ) );
-		
+
 		static osg::ref_ptr< osg::Program > bprogram;
 		if( bprogram == 0 )
 		{
@@ -3189,7 +3189,7 @@ osg::Group* CreatePointRayTracedMoleculeGeometry2( const std::string& fname,
 		set->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
 		set->setMode( GL_VERTEX_PROGRAM_POINT_SIZE, osg::StateAttribute::ON );
 		group->addChild( geode.get() );
-		
+
 		for( int b = 0; b != numBonds; ++b )
 		{
 			OBBond* bond = mol->GetBond( b );
@@ -3243,12 +3243,12 @@ osg::Group* CreateAnimatedPointRayTracedMoleculeGeometry2( OBMol* mol,
 	const bool atoms = ds != MOLDISPSTYLE_WIREFRAME;// && ds != MOLDISPSTYLE_LIQUORICE;
 	const bool liquorice = ds == MOLDISPSTYLE_LIQUORICE;
 	const float liqRadius = radScale;
-	
+
 	const int numAtoms = mol->NumAtoms();
 	typedef std::map< int, osg::ref_ptr< osg::Geode > > GEODES;
 	GEODES geodes;
 	const MolekelElement* et = GetElementTable();
-	osg::ref_ptr< osg::Group > group = new osg::Group; 
+	osg::ref_ptr< osg::Group > group = new osg::Group;
 
 	//ATOMS
 	static osg::ref_ptr< osg::Program > aprogram;
@@ -3270,7 +3270,7 @@ osg::Group* CreateAnimatedPointRayTracedMoleculeGeometry2( OBMol* mol,
                      aprogram->addShader( new osg::Shader( osg::Shader::VERTEX, SSAOPOINTSPHEREVERT ) );
                      break;
             }
-			
+
 		}
 		else
 		{
@@ -3279,13 +3279,13 @@ osg::Group* CreateAnimatedPointRayTracedMoleculeGeometry2( OBMol* mol,
 			aprogram->addShader( new osg::Shader( osg::Shader::VERTEX, AOPOINTSPHEREVERT ) );
 		}
 	}
-	
+
 	const bool perVertexColor = true; //useful for AO computation
- 
+
 	for( int a = 0; a != numAtoms && atoms; ++a )
-    {	
+    {
 		OBAtom* atom = mol->GetAtom( a + 1 );
-		osg::Vec3d p( atom->GetX(), atom->GetY(), atom->GetZ() ); 
+		osg::Vec3d p( atom->GetX(), atom->GetY(), atom->GetZ() );
 		osg::ref_ptr< osg::Geometry > geom;
 		if( geodes.find( atom->GetAtomicNum() ) == geodes.end() )
 		{
@@ -3304,7 +3304,7 @@ osg::Group* CreateAnimatedPointRayTracedMoleculeGeometry2( OBMol* mol,
 			set->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
 			set->setMode( GL_VERTEX_PROGRAM_POINT_SIZE, osg::StateAttribute::ON );
 			geom = new osg::Geometry;
-			
+
 			// super simple approximation of bounding box: simply add 2.0 to radius;
 			// this is required because atom are added as points i.e. spheres with zero radius
 			struct BBCBack : public osg::Drawable::ComputeBoundingBoxCallback
@@ -3312,7 +3312,7 @@ osg::Group* CreateAnimatedPointRayTracedMoleculeGeometry2( OBMol* mol,
 				osg::BoundingBox computeBound( const osg::Drawable& d ) const
 				{
 					const float dr = 2.0;
-					const osg::BoundingBox& bb = d.computeBound();
+					const osg::BoundingBox& bb = d.computeBoundingBox();
 					return osg::BoundingBox( bb.xMin() - dr, bb.yMin() - dr, bb.zMin() - dr,
 											 bb.xMax() + dr, bb.yMax() + dr, bb.zMax() + dr );
 				}
@@ -3357,7 +3357,7 @@ osg::Group* CreateAnimatedPointRayTracedMoleculeGeometry2( OBMol* mol,
 		if( !coord ) continue;
 		g->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::POINTS, 0, coord->size() ) );
 	}
-	
+
 
 	// BONDS
 	if( bonds )
@@ -3376,7 +3376,7 @@ osg::Group* CreateAnimatedPointRayTracedMoleculeGeometry2( OBMol* mol,
 		geom->setNormalBinding( osg::Geometry::BIND_PER_VERTEX );
 		geom->setColorBinding( osg::Geometry::BIND_PER_VERTEX );
 		geom->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::POINTS, 0, 2 * numBonds ) );
-		
+
 		static osg::ref_ptr< osg::Program > bprogram;
 		if( bprogram == 0 )
 		{
@@ -3390,7 +3390,7 @@ osg::Group* CreateAnimatedPointRayTracedMoleculeGeometry2( OBMol* mol,
                                       break;
                 default: bprogram->addShader( new osg::Shader( osg::Shader::FRAGMENT, SSAOACCNPOINTCYLINDERFRAG ) );
                          break;
-                }				
+                }
 				bprogram->addShader( new osg::Shader( osg::Shader::VERTEX, SSAONPOINTCYLINDERVERT ) );
 			}
 			else
@@ -3406,7 +3406,7 @@ osg::Group* CreateAnimatedPointRayTracedMoleculeGeometry2( OBMol* mol,
 		set->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
 		set->setMode( GL_VERTEX_PROGRAM_POINT_SIZE, osg::StateAttribute::ON );
 		group->addChild( geode.get() );
-		
+
 		for( int b = 0; b != numBonds; ++b )
 		{
 			OBBond* bond = mol->GetBond( b );
@@ -3468,8 +3468,8 @@ osg::Group* CreateImpostorRayTracedMoleculeGeometry( const std::string& fname,
 	}
 
 	osg::ref_ptr< osg::Group > group = new osg::Group;
-	
-	
+
+
 
 	struct VPCback : osg::Uniform::Callback
 	{
@@ -3480,8 +3480,9 @@ osg::Group* CreateImpostorRayTracedMoleculeGeometry( const std::string& fname,
 			if( ev )
 			{
 				std::cout << "osgGA::EventVisitor" << std::endl;
-				osg::ref_ptr< osgGA::GUIEventAdapter > ea = ev->getEvents().back();
-				osg::Vec2 vp( ea->getWindowWidth(), ea->getWindowHeight() );
+				osg::ref_ptr< osgGA::Event > e = ev->getEvents().back();
+                osgGA::GUIEventAdapter* ev = static_cast< osgGA::GUIEventAdapter* >(e.get());
+                osg::Vec2 vp( ev->getWindowWidth(), ev->getWindowHeight() );
 				u->set( vp );
 				return;
 			}
@@ -3498,7 +3499,7 @@ osg::Group* CreateImpostorRayTracedMoleculeGeometry( const std::string& fname,
 
 
 	for( int a = 0; a != numAtoms; ++a )
-    {	
+    {
 		OBAtom* atom = mol->GetAtom( a + 1 );
 		osg::Vec3d p( atom->GetX(), atom->GetY(), atom->GetZ() );
 		osg::ref_ptr< osg::Geometry > geom;
@@ -3508,13 +3509,13 @@ osg::Group* CreateImpostorRayTracedMoleculeGeometry( const std::string& fname,
 		    billboards[ atom->GetAtomicNum() ]->setMode( osg::Billboard::POINT_ROT_EYE );
 			osg::ref_ptr< osg::Vec4Array > colors = new osg::Vec4Array;
 			colors->push_back( gAtomColors[ atom->GetAtomicNum() ] );
-					
+
 			osg::StateSet* set = billboards[ atom->GetAtomicNum() ]->getOrCreateStateSet();
 			set->setMode( GL_BLEND, osg::StateAttribute::ON );
 			set->setAttributeAndModes( aprogram.get(), osg::StateAttribute::ON );
 			float radius = et[ atom->GetAtomicNum() ].vdwRadius;
 			// POINT
-			//osg::ref_ptr< osg::Uniform > vp = new osg::Uniform( "vport",  osg::Vec2( 512, 512 ) );			
+			//osg::ref_ptr< osg::Uniform > vp = new osg::Uniform( "vport",  osg::Vec2( 512, 512 ) );
 			//vp->setUpdateCallback( new VPCback );
 			//set->addUniform( vp.get() );
 			//osg::Point *point = new osg::Point();
@@ -3522,7 +3523,7 @@ osg::Group* CreateImpostorRayTracedMoleculeGeometry( const std::string& fname,
 			//set->setAttribute(point);
 			set->addUniform( new osg::Uniform( "radius", radius ) );
 			set->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
-			
+
 			osg::Geometry* g = gAtoms[ atom->GetAtomicNum() ]->getDrawable( 0 )->asGeometry();
 			geom = new osg::Geometry;
 			geom->setColorArray( g->getColorArray() );
@@ -3536,15 +3537,15 @@ osg::Group* CreateImpostorRayTracedMoleculeGeometry( const std::string& fname,
 			coord->push_back( osg::Vec3d( -radius, -radius, -radius ) );
 			coord->push_back( osg::Vec3d(  radius, -radius, -radius ) );
 			coord->push_back( osg::Vec3d(  radius, -radius,  radius ) );
-			coord->push_back( osg::Vec3d( -radius, -radius,  radius ) );		
+			coord->push_back( osg::Vec3d( -radius, -radius,  radius ) );
 			geom->setVertexArray( coord );
 			geom->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::QUADS, 0, 4 ) );
-			group->addChild( billboards[ atom->GetAtomicNum() ].get() );			
+			group->addChild( billboards[ atom->GetAtomicNum() ].get() );
 		}
 		else geom = billboards[ atom->GetAtomicNum() ]->getDrawable( 0 )->asGeometry();
-		billboards[ atom->GetAtomicNum() ]->addDrawable( geom.get(), p );		
+		billboards[ atom->GetAtomicNum() ]->addDrawable( geom.get(), p );
 	}
-	
+
 
 	osg::ref_ptr< osgSim::Impostor > impostor = new osgSim::Impostor();
     impostor->setImpostorThresholdToBound( static_cast< float >( 1.f ) );
@@ -3579,14 +3580,14 @@ osg::Vec3Array* CRomInterpolation( const osg::Vec3Array* in, int subdivisions )
 	{
 		const double t = dt * step;
 		const int i = int( t ); //floor t
-		const double s = t - int( t ); 
+		const double s = t - int( t );
 		if( i == 0 )
 		{
 			out->push_back( CRomSpline( p[ 0 ], p[ 0 ], p[ 1 ], p[ 2 ], s ) );
 		}
 		else
 		{
-			out->push_back( CRomSpline( p[ i - 1 ], p[ i ], p[ std::min( i + 1, int( in->size() - 1 ) ) ], p[ std::min( i + 2, int( in->size() - 1 ) ) ], s ) ); 
+			out->push_back( CRomSpline( p[ i - 1 ], p[ i ], p[ std::min( i + 1, int( in->size() - 1 ) ) ], p[ std::min( i + 2, int( in->size() - 1 ) ) ], s ) );
 		}
 	}
 	out->push_back( in->back() );
@@ -3642,15 +3643,15 @@ osg::Group* CreateMoleculeBackBoneGeometry( const std::string& fname, const std:
 	for( OBResidueIterator ri = mol->BeginResidues(); ri != mol->EndResidues(); ++ri )
 	{
 		OBResidue* r = *ri;
-		if( !r || r->GetNumAtoms() < 3 ) continue; 
-		chains[ r->GetChainNum() ].push_back( r );  
+		if( !r || r->GetNumAtoms() < 3 ) continue;
+		chains[ r->GetChainNum() ].push_back( r );
 	}
 	if( chains.empty() )
 	{
 		std::cerr << "EMPTY CHAINS" << std::endl;
 		return 0;
 	}
-	
+
 	osg::ref_ptr< osg::Group > group = new osg::Group;
 	//Chain colors
 	std::vector< osg::Vec4 > colors( 10 );
