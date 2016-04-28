@@ -9,7 +9,7 @@ static const char SSAOPOINTSPHEREVERT[] =
 "/*uniform*/ float saturation = 0.5;\n"
 "void main(void)\n"
 "{\n"
-"  if( bool( shade ) ) color = vec4( saturation * gl_Color.rgb + ( 1.0 - saturation ) * vec3( 1., 1., 1. ), gl_Color.a );\n" 
+"  /*if( bool( shade ) )*/ color = vec4( saturation * gl_Color.rgb + ( 1.0 - saturation ) * vec3( 1., 1., 1. ), gl_Color.a );\n"
 "  vec4 P = gl_ModelViewMatrix * gl_Vertex;\n"
 "  bool perspective = gl_ProjectionMatrix[ 3 ][ 3 ] < 0.001 && gl_ProjectionMatrix[ 2 ][ 3 ] != 0.0;\n"
 "  if( perspective )\n"
